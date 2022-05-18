@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    tools:context=".ui.search.SearchFragment">
+    tools:context=".presentation.search.SearchFragment">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtSearch"

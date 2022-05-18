@@ -1,7 +1,7 @@
 package com.vannv.train.newsfly.di
 
-import com.vannv.train.newsfly.storage.DataStorage
-import com.vannv.train.newsfly.storage.DataStorageImpl
+import com.vannv.train.newsfly.data.local.storage.DataStorage
+import com.vannv.train.newsfly.data.local.storage.DataStorageImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

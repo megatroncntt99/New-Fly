@@ -3,8 +3,8 @@ package com.vannv.train.newsfly.utils
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.vannv.train.newsfly.room.entity.PopularArticle
-import com.vannv.train.newsfly.room.entity.RecentArticle
+import com.vannv.train.newsfly.domain.entity.PopularArticle
+import com.vannv.train.newsfly.domain.entity.RecentArticle
 
 /**
  * Creator: Nguyen Van Van

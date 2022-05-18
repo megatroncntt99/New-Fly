@@ -1,11 +1,12 @@
 package com.vannv.train.newsfly.di
 
-import com.vannv.train.newsfly.ui.search.*
+import com.vannv.train.newsfly.data.datasource.search.*
+import com.vannv.train.newsfly.data.repository.SearchRepositoryImpl
+import com.vannv.train.newsfly.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Qualifier
 
 /**
@@ -19,11 +20,11 @@ abstract class RepositoryModule {
 
     @Local
     @Binds
-    abstract fun bindLocalSearchDataSource(localSearchDataSource: LocalSearchDataSource): SearchDataSource
+    abstract fun bindLocalSearchDataSource(localSearchDataSource: LocalSearchDataSourceImpl): LocalSearchDataSource
 
     @Remote
     @Binds
-    abstract fun bindRemoteSearchDataSource(remoteSearchDataSource: RemoteSearchDataSource): SearchDataSource
+    abstract fun bindRemoteSearchDataSource(remoteSearchDataSource: RemoteSearchDataSourceImpl): RemoteSearchDataSource
 
     @Binds
     abstract fun bindSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository

@@ -6,7 +6,6 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.vannv.train.newsfly.R
-import com.vannv.train.newsfly.ui.main.MainActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

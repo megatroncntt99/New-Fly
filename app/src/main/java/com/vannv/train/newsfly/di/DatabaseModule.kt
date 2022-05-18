@@ -2,8 +2,7 @@ package com.vannv.train.newsfly.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.vannv.train.newsfly.room.main.ArticlesDatabase
+import com.vannv.train.newsfly.data.local.room.main.ArticlesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

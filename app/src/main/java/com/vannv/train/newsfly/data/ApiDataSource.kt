@@ -1,11 +1,9 @@
 package com.vannv.train.newsfly.data
 
-import com.vannv.train.newsfly.model.remote.PopularNewsResponse
-import com.vannv.train.newsfly.network.ApiService
-import com.vannv.train.newsfly.network.Repo
-import com.vannv.train.newsfly.network.TypeRepo
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.vannv.train.newsfly.data.remote.dto.PopularNewsDTO
+import com.vannv.train.newsfly.data.remote.ApiService
+import com.vannv.train.newsfly.data.remote.Repo
+import com.vannv.train.newsfly.data.remote.TypeRepo
 
 /**
  * Creator: Nguyen Van Van
@@ -27,7 +25,7 @@ class ApiDataSource (private val apiService: ApiService) {
     suspend fun request(repo: Repo){
         when(repo.typeRepo){
             TypeRepo.GET ->{
-                apiService.get<PopularNewsResponse>(repo.url,repo.headers,
+                apiService.get<PopularNewsDTO>(repo.url,repo.headers,
                     (repo.message?:  HashMap<String,String>()) as Map<String, String>,)
             }
             TypeRepo.POST ->{

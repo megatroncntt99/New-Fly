@@ -4,7 +4,8 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.vannv.train.newsfly.data.ApiDataSource
-import com.vannv.train.newsfly.network.*
+import com.vannv.train.newsfly.data.remote.ApiService
+import com.vannv.train.newsfly.data.remote.NetworkInterceptor
 import com.vannv.train.newsfly.utils.Urls
 import dagger.Module
 import dagger.Provides
@@ -29,6 +30,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    @Singleton
     @Provides
     fun providesGson(): Gson = GsonBuilder().setLenient().create()
 

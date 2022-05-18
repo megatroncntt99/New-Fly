@@ -5,14 +5,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.room.withTransaction
-import com.vannv.train.newsfly.model.remote.RecentNewsResponse
-import com.vannv.train.newsfly.network.BaseDataSource
+import com.vannv.train.newsfly.data.remote.dto.RecentNewsDTO
+import com.vannv.train.newsfly.data.remote.BaseDataSource
 import com.vannv.train.newsfly.network.UiState
-import com.vannv.train.newsfly.room.dao.PopularArticleDao
-import com.vannv.train.newsfly.room.dao.RecentArticleDao
-import com.vannv.train.newsfly.room.entity.PopularArticle
-import com.vannv.train.newsfly.room.entity.RecentArticle
-import com.vannv.train.newsfly.room.main.ArticlesDatabase
+import com.vannv.train.newsfly.domain.entity.PopularArticle
+import com.vannv.train.newsfly.domain.entity.RecentArticle
+import com.vannv.train.newsfly.data.local.room.main.ArticlesDatabase
 import com.vannv.train.newsfly.utils.networkBoundResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -95,7 +93,7 @@ class AllNewsRepository @Inject constructor(
             }
         )
 
-    suspend fun searchForNewsItem(q: String) : Flow<UiState<RecentNewsResponse>> {
+    suspend fun searchForNewsItem(q: String) : Flow<UiState<RecentNewsDTO>> {
         return flow {
             val result = safeApiCall { apiDataSource.searchForNews(q) }
             emit(result)
