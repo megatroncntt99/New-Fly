@@ -30,9 +30,7 @@ class SearchListAdapter(val listener: (RecentArticle) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setOnClickItem {
-                binding.setOnClickItem {
-                    binding.model?.let(listener)
-                }
+                binding.model?.let(listener)
             }
         }
 

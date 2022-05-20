@@ -17,5 +17,10 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.vannv.train.newsfly.presentation.search.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="Van" />
+    </fragment>
 </navigation>

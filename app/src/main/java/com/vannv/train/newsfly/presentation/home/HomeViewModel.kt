@@ -1,6 +1,7 @@
 package com.vannv.train.newsfly.presentation.home
 
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,8 +29,12 @@ class HomeViewModel @Inject constructor(private val allNewsRepository: AllNewsRe
     ViewModel(), CoroutineScope {
 
     private val viewModelJob = SupervisorJob()
+
     private val _searchAllNews = MutableStateFlow(UiState<RecentNewsDTO>())
     val searchAllNews: StateFlow<UiState<RecentNewsDTO>> = _searchAllNews
+
+    private val _getData = MutableStateFlow(UiState<GetData>())
+    val getData: StateFlow<UiState<GetData>> = _getData
 
     private val _uiRecentArticles =
         MutableStateFlow(UiState<PagingData<RecentArticle>>())
@@ -112,4 +117,10 @@ class HomeViewModel @Inject constructor(private val allNewsRepository: AllNewsRe
         viewModelJob.cancel()
     }
 
+}
+
+
+sealed class GetData{
+    object onSuccess: GetData()
+    object onLoading: GetData()
 }

@@ -142,6 +142,17 @@ class HomeFragment : Fragment() {
             }
         }
         launchWhenCreated {
+            homeViewModel.getData.collect {
+                handleStateFlow(it, onSuccess = {
+                    it.result ?: return@handleStateFlow
+                    when(it.result){
+                        GetData.onLoading -> TODO()
+                        GetData.onSuccess -> TODO()
+                    }
+                }, onError ={})
+            }
+        }
+        launchWhenCreated {
             homeViewModel.uiRecentArticles.collect {
                 when (it.state) {
                     RequestState.SUCCESS -> {
