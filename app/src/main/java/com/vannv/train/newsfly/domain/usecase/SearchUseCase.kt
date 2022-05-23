@@ -1,35 +1,25 @@
 package com.vannv.train.newsfly.domain.usecase
 
-import com.vannv.train.newsfly.data.remote.ResultWrapper
-import com.vannv.train.newsfly.domain.entity.RecentArticle
+import com.vannv.train.newsfly.data.remote.base.Repo
+import com.vannv.train.newsfly.data.remote.base.RequestService
+import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.repository.SearchRepository
 import com.vannv.train.newsfly.network.RequestState
 import com.vannv.train.newsfly.network.UiState
-import kotlinx.coroutines.flow.*
+import com.vannv.train.newsfly.utils.JSON
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 
 /**
  * Author: vannv8@fpt.com.vn
- * Date: 18/05/2022
+ * Date: 20/05/2022
  */
 
-class SearchUseCase(
-    val getListData: GetListData
-)
+class SearchUseCase(val getNews: GetNews)
 
-class GetListData(private val repository: SearchRepository) {
-    suspend operator fun invoke(key: String) = flow<UiState<List<RecentArticle>>> {
-
-        repository.getListSearch(key).catch {
-            emit(UiState(RequestState.ERROR, message = it.message, code = it.hashCode()))
-        }.collect {
-            when (it) {
-                is ResultWrapper.Success -> emit(UiState(RequestState.SUCCESS, result = it.value))
-                is ResultWrapper.Error -> {
-                    emit(UiState(RequestState.ERROR, message = it.error, code = it.code))
-                }
-            }
-        }
+class GetNews(private val repository: SearchRepository) {
+    operator fun invoke(repo: Repo): Flow<UiState<List<New>>> {
+        return repository.getDataList(repo)
     }
-
-
 }

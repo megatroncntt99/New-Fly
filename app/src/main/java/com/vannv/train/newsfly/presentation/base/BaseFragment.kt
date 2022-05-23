@@ -5,12 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavArgs
-import androidx.navigation.NavArgsLazy
-import androidx.navigation.fragment.navArgs
 import androidx.viewbinding.ViewBinding
 import com.vannv.train.newsfly.utils.LogCat
 
@@ -19,7 +15,7 @@ import com.vannv.train.newsfly.utils.LogCat
  * Date: 18/05/2022
  */
 
-abstract class BaseFragment<VB : ViewBinding, Args : NavArgs, VM : BaseViewModel> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding, Args : NavArgs?, VM : BaseViewModel<*>> : Fragment() {
 
     @Volatile
     protected var binding: VB? = null
@@ -27,18 +23,18 @@ abstract class BaseFragment<VB : ViewBinding, Args : NavArgs, VM : BaseViewModel
     protected abstract fun getViewBinding(): VB
     protected abstract val args: Args
     protected abstract fun setupUI()
-
-    protected val TAG: String = this.javaClass.name
-
+    protected abstract fun setupVM()
     protected fun getVB(): VB = binding ?: synchronized(this) {
         binding = getViewBinding()
         getViewBinding()
     }
 
+    protected val TAG: String = this.javaClass.name
+
 
     override fun onAttach(context: Context) {
-        LogCat.d("Lifecycle in Fragment onAttach $TAG")
         super.onAttach(context)
+        LogCat.d("Lifecycle in Fragment onAttach $TAG")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +56,7 @@ abstract class BaseFragment<VB : ViewBinding, Args : NavArgs, VM : BaseViewModel
         super.onViewCreated(view, savedInstanceState)
         LogCat.d("Lifecycle in Fragment onViewCreated $TAG")
         setupUI()
+        setupVM()
     }
 
     override fun onStart() {

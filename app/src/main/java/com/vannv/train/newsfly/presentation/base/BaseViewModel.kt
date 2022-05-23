@@ -4,7 +4,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vannv.train.newsfly.data.remote.ResultWrapper
+import com.vannv.train.newsfly.data.remote.base.Repo
+import com.vannv.train.newsfly.data.remote.base.ResultWrapper
+import com.vannv.train.newsfly.data.remote.repo.BaseRepo
+import com.vannv.train.newsfly.data.remote.repo.RepoManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
  * Date: 18/05/2022
  */
 
-abstract class BaseViewModel : ViewModel(), LifecycleObserver, CoroutineScope {
+abstract class BaseViewModel<R : BaseRepo> : ViewModel(), LifecycleObserver, CoroutineScope {
 
     var _error = MutableStateFlow(ResultWrapper.Error("-1"))
     var error: StateFlow<ResultWrapper.Error> = _error
@@ -25,6 +28,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver, CoroutineScope {
 
     val netWorkError = MutableLiveData<Boolean>()
     val viewModelJob = SupervisorJob()
+    protected val repo = RepoManager() as R
 
     val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _error.value =

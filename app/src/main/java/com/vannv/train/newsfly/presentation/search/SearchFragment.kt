@@ -1,78 +1,55 @@
 package com.vannv.train.newsfly.presentation.search
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavArgs
-import androidx.navigation.NavArgsLazy
 import androidx.navigation.fragment.navArgs
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
+import com.vannv.train.newsfly.utils.LogCat
+import com.vannv.train.newsfly.utils.Utility
 import com.vannv.train.newsfly.utils.handleStateFlow
 import com.vannv.train.newsfly.utils.launchWhenCreated
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Creator: Nguyen Van Van
- * Date: 05,May,2022
- * Time: 9:23 AM
+ * Author: vannv8@fpt.com.vn
+ * Date: 20/05/2022
  */
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, SearchViewModel>() {
 
-    private val args by navArgs<SearchFragmentArgs>()
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel by viewModels<SearchViewModel>()
-    private val recentNewsAdapter by lazy {
-        SearchListAdapter {
-            println(it.content)
+    private val newsAdapter by lazy {
+        NewsAdapter {
+            println(it.title)
         }
     }
+    override val viewModel: SearchViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        binding.searchViewModer = viewModel
-        binding.lifecycleOwner = this
-        return binding.root
+    override fun getViewBinding() = FragmentSearchBinding.inflate(layoutInflater)
+
+    override val args: SearchFragmentArgs by navArgs()
+
+
+    override fun setupUI() {
+        getVB().rvListNew.adapter = newsAdapter
+        getVB().searchViewModer = viewModel
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
-            println(text)
-            viewModel.searchListData(text.toString())
-        }
-        binding.rvListNew.adapter = recentNewsAdapter
+    override fun setupVM() {
         launchWhenCreated {
-            viewModel.uiList.collect {
-                handleStateFlow(it, onSuccess = {
-                    println("Số lượng phần tử là: ${it.result?.size}")
-                    recentNewsAdapter.submitList(it.result ?: emptyList())
-                })
+            viewModel.uiNews.collect {
+                handleStateFlow(it,
+                    onSuccess = {
+                        it.result ?: return@handleStateFlow
+                        newsAdapter.submitList(it.result)
+                    },
+                    onError = {
+                        Toast.makeText(requireContext(),it.message ?:" ERROR",Toast.LENGTH_SHORT).show()
+                    }
+
+                )
             }
         }
     }
-}
-
-class TestFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, SearchViewModel>() {
-
-
-    override fun getViewBinding() = FragmentSearchBinding.inflate(layoutInflater)
-    override val args: SearchFragmentArgs by navArgs()
-    override fun setupUI() {
-        args.name
-    }
-
-   override val viewModel: SearchViewModel by  viewModels()
-
-
 }

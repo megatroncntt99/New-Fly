@@ -1,23 +1,24 @@
 package com.vannv.train.newsfly.di
 
-import com.vannv.train.newsfly.domain.usecase.GetListData
-import com.vannv.train.newsfly.domain.usecase.SearchUseCase
 import com.vannv.train.newsfly.domain.repository.SearchRepository
+import com.vannv.train.newsfly.domain.usecase.GetNews
+import com.vannv.train.newsfly.domain.usecase.SearchUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
  * Author: vannv8@fpt.com.vn
- * Date: 18/05/2022
+ * Date: 23/05/2022
  */
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object UseCaseModule {
-    @ViewModelScoped
+    @Singleton
     @Provides
-    fun provideSearchUseCase(searchRepository: SearchRepository) =
-        SearchUseCase(getListData = GetListData(searchRepository))
+    fun provideSearchUseCase(searchRepository: SearchRepository) =SearchUseCase(getNews = GetNews(searchRepository))
 }

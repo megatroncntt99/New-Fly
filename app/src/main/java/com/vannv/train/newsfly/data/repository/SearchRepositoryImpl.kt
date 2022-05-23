@@ -1,54 +1,40 @@
 package com.vannv.train.newsfly.data.repository
 
 
-import com.vannv.train.newsfly.data.datasource.search.LocalSearchDataSource
-import com.vannv.train.newsfly.data.datasource.search.RemoteSearchDataSource
-import com.vannv.train.newsfly.data.remote.ResultWrapper
-import com.vannv.train.newsfly.di.Local
-import com.vannv.train.newsfly.di.Remote
-import com.vannv.train.newsfly.domain.entity.RecentArticle
+import com.vannv.train.newsfly.data.datasource.news.NewLocalDataSource
+import com.vannv.train.newsfly.data.datasource.news.NewRemoteDataSource
+import com.vannv.train.newsfly.data.remote.base.Repo
+import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.repository.SearchRepository
+import com.vannv.train.newsfly.network.RequestState
+import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.utils.LogCat
+import com.vannv.train.newsfly.utils.networkBoundResource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Creator: Nguyen Van Van
- * Date: 06,May,2022
- * Time: 3:17 PM
+ * Author: vannv8@fpt.com.vn
+ * Date: 20/05/2022
  */
-@Singleton
+@ExperimentalCoroutinesApi
 class SearchRepositoryImpl @Inject constructor(
-    @Local private val localSearchDataSource: LocalSearchDataSource,
-    @Remote private val remoteSearchDataSource: RemoteSearchDataSource,
+    private val newLocalDataSource: NewLocalDataSource,
+    private val newRemoteDataSource: NewRemoteDataSource
 ) : SearchRepository {
-    override suspend fun getListSearch(key: String): Flow<ResultWrapper<List<RecentArticle>>> =
-        flow {
-            //Xử lý data local và remote
-            val localListings = localSearchDataSource.getListSearch(key)
-            emit(ResultWrapper.Success(value = localListings))
-            val isDbEmpty = localListings.isEmpty() && key.isNotBlank()
-            if (!isDbEmpty) return@flow
-            val remoteListings = try {
-                val response = remoteSearchDataSource.getListSearch(key)
-                response
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emit(ResultWrapper.Error(error = e.message ?: "", message = e.localizedMessage, code = e.hashCode()))
-                null
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                emit(ResultWrapper.Error(error = e.message ?: "", message = e.localizedMessage, code = e.hashCode()))
-                null
-            }
-            remoteListings?.let { list ->
-                localSearchDataSource.clearList()
-                localSearchDataSource.insertList(list)
-                emit(ResultWrapper.Success(value = localSearchDataSource.getListSearch("")))
-            }
-
-        }
+    override fun getDataList(repo: Repo): Flow<UiState<List<New>>> {
+        return networkBoundResource(
+            query = {
+                newLocalDataSource.getNews()
+            },
+            fetch = {
+                newRemoteDataSource.getNews(repo)
+            },
+            saveFetchResult = {
+                newLocalDataSource.deleteNews()
+                newLocalDataSource.insertNews(it)
+            },
+        )
+    }
 }

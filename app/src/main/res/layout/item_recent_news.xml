@@ -10,7 +10,7 @@
 
         <variable
             name="model"
-            type="com.vannv.train.newsfly.domain.entity.RecentArticle" />
+            type="com.vannv.train.newsfly.domain.entity.New" />
 
         <variable
             name="onClickItem"

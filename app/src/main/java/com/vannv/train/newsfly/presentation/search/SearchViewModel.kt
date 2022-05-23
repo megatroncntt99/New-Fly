@@ -1,46 +1,52 @@
 package com.vannv.train.newsfly.presentation.search
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.vannv.train.newsfly.data.remote.ResultWrapper
-import com.vannv.train.newsfly.domain.entity.RecentArticle
+import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.usecase.SearchUseCase
-import com.vannv.train.newsfly.network.RequestState
 import com.vannv.train.newsfly.network.UiState
 import com.vannv.train.newsfly.presentation.base.BaseViewModel
+import com.vannv.train.newsfly.utils.LogCat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
 
 /**
- * Creator: Nguyen Van Van
- * Date: 06,May,2022
- * Time: 3:14 PM
+ * Author: vannv8@fpt.com.vn
+ * Date: 23/05/2022
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCase) :
-    BaseViewModel() {
-    private val _uiList = MutableStateFlow(UiState<List<RecentArticle>>())
-    val uiList: StateFlow<UiState<List<RecentArticle>>> = _uiList
+    BaseViewModel<SearchRepo>() {
+    private val _uiNews = MutableStateFlow(UiState<List<New>>())
+    val uiNews: StateFlow<UiState<List<New>>> = _uiNews
+    val searchAction = Channel<SearchAction>(Channel.UNLIMITED)
+    val keySearch = MutableStateFlow("")
 
-    val channelSearch = Channel<String>(Channel.UNLIMITED)
+    init {
+        handleAction()
+    }
 
-    var testString = MutableStateFlow("TEST")
+    private fun handleAction() {
+        viewModelScope {
+            keySearch.collect {
+                LogCat.i("Search Key: $it")
+                searchListData(it)
+            }
+        }
+    }
 
     private var searchJob: Job? = null
-    fun searchListData(key: String) {
+   private fun searchListData(key: String) {
         if (key.trim().isEmpty()) return
         searchJob?.cancel()
         searchJob = viewModelScope {
             delay(1000L)
-            searchUseCase.getListData(key.lowercase()).collect {
-                _uiList.value = it
+            searchUseCase.getNews(repo.repoGetNews(key.lowercase())).collect {
+                _uiNews.value = it
             }
         }
     }
@@ -50,5 +56,14 @@ class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCa
         searchJob?.cancel()
         searchJob = null
     }
-
 }
+
+sealed class SearchAction {
+    data class FetchUser(val key: String) : SearchAction()
+}
+
+//sealed class SearchState {
+//    object Loading : SearchState()
+//    data class Users(val user: List<User>) : SearchState()
+//    data class Error(val error: String?) : SearchState()
+//}

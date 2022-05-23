@@ -1,13 +1,11 @@
 package com.vannv.train.newsfly.presentation.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.vannv.train.newsfly.R
-import com.vannv.train.newsfly.data.remote.NetworkState
-import com.vannv.train.newsfly.utils.Utility
+import com.vannv.train.newsfly.data.remote.base.TypeError
 import com.vannv.train.newsfly.utils.launchWhenCreated
 import com.vannv.train.newsfly.utils.setOverlayStatusBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,24 +53,22 @@ class MainActivity : AppCompatActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onEvent(event: Any) {
-        if (event is NetworkState) {
+        if (event is TypeError) {
             when (event) {
-                NetworkState.UNAUTHORISED -> {}
-                NetworkState.INTERNAL_ERROR -> {}
-                NetworkState.NO_RESPONSE -> {
-                    Utility.displayErrorSnackBar(
-                        findViewById<View>(android.R.id.content).rootView,
-                        "Không có response",
-                        this
-                    )
+                TypeError.NO_INTERNET -> {
+
                 }
-                NetworkState.HTTP_ERROR -> {}
-                NetworkState.NO_INTERNET -> {
-                    Utility.displayErrorSnackBar(
-                        findViewById<View>(android.R.id.content).rootView,
-                        "Không có internet",
-                        this
-                    )
+                TypeError.REDIRECT_RESPONSE_ERROR -> {
+
+                }
+                TypeError.CLIENT_REQUEST_ERROR -> {
+
+                }
+                TypeError.SERVER_RESPONSE_ERROR -> {
+
+                }
+                TypeError.ANOTHER_ERROR -> {
+
                 }
             }
             EventBus.getDefault().removeStickyEvent(event)

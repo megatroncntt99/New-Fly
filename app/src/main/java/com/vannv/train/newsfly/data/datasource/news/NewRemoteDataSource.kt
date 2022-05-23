@@ -1,15 +1,16 @@
-package com.vannv.train.newsfly.domain.repository
+package com.vannv.train.newsfly.data.datasource.news
 
 import com.vannv.train.newsfly.data.remote.base.Repo
+import com.vannv.train.newsfly.data.remote.dto.NewDTO
 import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.network.UiState
 import kotlinx.coroutines.flow.Flow
 
 /**
  * Author: vannv8@fpt.com.vn
- * Date: 20/05/2022
+ * Date: 23/05/2022
  */
 
-interface SearchRepository {
-    fun getDataList(repo: Repo): Flow<UiState<List<New>>>
+interface NewRemoteDataSource {
+ suspend fun getNews(repo: Repo): Flow<UiState<List<New>>>
 }

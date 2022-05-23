@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 inline fun <ResultType, RequestType> networkBoundResource(
     crossinline query: () -> Flow<ResultType>,
-    crossinline fetch: suspend () -> RequestType,
+    crossinline fetch: suspend () -> Flow<UiState<RequestType>>,
     crossinline saveFetchResult: suspend (RequestType) -> Unit,
     crossinline shouldFetch: (ResultType) -> Boolean = { true },
     crossinline onFetchSuccess: () -> Unit = { },
@@ -30,7 +31,20 @@ inline fun <ResultType, RequestType> networkBoundResource(
             query().collect { send(UiState(RequestState.NON)) }
         }
         try {
-            saveFetchResult(fetch())
+            fetch().collect {
+                when (it.state) {
+                    RequestState.SUCCESS -> {
+                        it.result ?: return@collect
+                        saveFetchResult(it.result)
+                    }
+                    RequestState.ERROR -> {
+                        send(
+                            UiState(RequestState.ERROR, message = it.message, code = it.code)
+                        )
+                    }
+                }
+
+            }
             onFetchSuccess()
             loading.cancel()
             query().collect { send(UiState(RequestState.SUCCESS, result = it)) }

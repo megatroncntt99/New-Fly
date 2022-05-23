@@ -3,8 +3,7 @@ package com.vannv.train.newsfly.utils
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.vannv.train.newsfly.domain.entity.PopularArticle
-import com.vannv.train.newsfly.domain.entity.RecentArticle
+import com.vannv.train.newsfly.domain.entity.New
 
 /**
  * Creator: Nguyen Van Van
@@ -13,14 +12,14 @@ import com.vannv.train.newsfly.domain.entity.RecentArticle
  */
 
 @BindingAdapter("displayImage")
-fun ImageView.setDisplayImage(item: RecentArticle) {
+fun ImageView.setDisplayImage(item: New) {
     Glide.with(this)
         .load(item.urlToImage)
         .into(this)
 }
 
 @BindingAdapter("displayImage2")
-fun ImageView.setDisplayImage2(item: PopularArticle) {
+fun ImageView.setDisplayImage2(item: New) {
     Glide.with(this)
         .load(item.urlToImage)
         .into(this)

@@ -2,7 +2,7 @@ package com.vannv.train.newsfly.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vannv.train.newsfly.data.local.storage.DataStorage
+import com.vannv.train.newsfly.data.local.datastore.DataStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

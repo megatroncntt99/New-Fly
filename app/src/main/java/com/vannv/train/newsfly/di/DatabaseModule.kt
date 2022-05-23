@@ -1,60 +1,32 @@
 package com.vannv.train.newsfly.di
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
-import com.vannv.train.newsfly.data.local.room.main.ArticlesDatabase
+import com.vannv.train.newsfly.data.local.room.NewDao
+import com.vannv.train.newsfly.data.local.room.NewDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 /**
- * Creator: Nguyen Van Van
- * Date: 19,April,2022
- * Time: 2:24 PM
+ * Author: vannv8@fpt.com.vn
+ * Date: 23/05/2022
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     @Singleton
     @Provides
-    fun provideDatabase(
-        application: Application,
-        callback: ArticlesDatabase.Callback
-    ): ArticlesDatabase =
-        Room.databaseBuilder(application, ArticlesDatabase::class.java, "article_database")
+    fun provideNewDatabase(@ApplicationContext context: Context): NewDatabase {
+        return Room.databaseBuilder(context, NewDatabase::class.java, "new_db")
             .fallbackToDestructiveMigration()
-            .addCallback(callback)
             .build()
+    }
 
-//    @Singleton
-//    @Provides
-//    fun providesRecentArticleDao(articlesDatabase: ArticlesDatabase) =
-//        articlesDatabase.recentArticleDao()
-//
-//    @Singleton
-//    @Provides
-//    fun providesPopularArticleDao(articlesDatabase: ArticlesDatabase) =
-//        articlesDatabase.popularArticleDao()
-//
-//    @Singleton
-//    @Provides
-//    fun providesNewsRemoteKeyDao(articlesDatabase: ArticlesDatabase) =
-//        articlesDatabase.newsRemoteKeyDao()
-
-
-    @ApplicationScope
-    @Provides
     @Singleton
-    fun providesApplicationScope() = CoroutineScope(SupervisorJob())
-
+    @Provides
+    fun provideNewDao(newDatabase: NewDatabase): NewDao = newDatabase.newDao()
 }
-
-@Retention(AnnotationRetention.RUNTIME)
-@Qualifier
-annotation class ApplicationScope

@@ -22,19 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@={searchViewModer.testString}"
+            android:text="@={searchViewModer.keySearch}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tvSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@={searchViewModer.testString}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListNew"
@@ -45,7 +35,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSearch" />
+            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
