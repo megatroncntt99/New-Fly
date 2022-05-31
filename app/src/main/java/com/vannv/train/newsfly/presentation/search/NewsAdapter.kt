@@ -10,6 +10,7 @@ import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.ItemRecentNewsBinding
 import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.presentation.base.BaseAdapter
+import com.vannv.train.newsfly.presentation.base.BaseDiffCallback
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -17,7 +18,7 @@ import com.vannv.train.newsfly.presentation.base.BaseAdapter
  */
 
 class NewsAdapter(val listener: (New) -> Unit) :
-    BaseAdapter<NewsAdapter.ItemViewHolder, New>(diffCallback = NewDiffCallback()) {
+    BaseAdapter<New, NewsAdapter.ItemViewHolder>(diffCallback = NewDiffCallback()) {
 
     inner class ItemViewHolder(private val binding: ItemRecentNewsBinding) :
         BaseAdapter.BaseViewHolder<New>(binding) {

@@ -15,6 +15,10 @@
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/load_state_footer.xml" value="0.1902497027348395" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/popular_news_shimmer.xml" value="0.1902497027348395" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/recent_news_shimmer.xml" value="0.1" />
+        <entry key="..\:/Android/NewsFly/app/src/main/res/layout/view_progress_loading.xml" value="0.20521590423257802" />
+        <entry key="..\:/Android/NewsFly/app/src/main/res/layout/x_layout_load_more.xml" value="0.20521590423257802" />
+        <entry key="..\:/Android/NewsFly/app/src/main/res/layout/x_layout_loading.xml" value="0.20521590423257802" />
+        <entry key="..\:/Android/NewsFly/app/src/main/res/layout/x_layout_loadmore.xml" value="0.20521590423257802" />
       </map>
     </option>
   </component>

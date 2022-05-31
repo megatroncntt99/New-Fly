@@ -5,8 +5,9 @@ import com.vannv.train.newsfly.data.remote.base.Repo
 import com.vannv.train.newsfly.data.remote.base.RequestService
 import com.vannv.train.newsfly.data.remote.dto.ListNewDTO
 import com.vannv.train.newsfly.domain.entity.New
-import com.vannv.train.newsfly.network.RequestState
-import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.presentation.RequestState
+import com.vannv.train.newsfly.presentation.UiState
+
 import com.vannv.train.newsfly.utils.JSON
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

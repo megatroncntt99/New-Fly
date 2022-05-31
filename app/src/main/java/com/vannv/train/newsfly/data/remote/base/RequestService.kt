@@ -51,8 +51,9 @@ class RequestService @Inject constructor(private val apiService: ApiService, val
             params = repo.codeRequired as Map<String, String>? ?: HashMap(),
             headers = repo.headers
         )
-        checkCodeApi(response)
+
         if (response.isSuccessful) work?.onSuccess(ResultWrapper.Success(BaseDTO(data = response.body())))
+        else checkCodeAErrorApi(response)
     }
 
     private suspend fun post(repo: Repo) {
@@ -61,8 +62,9 @@ class RequestService @Inject constructor(private val apiService: ApiService, val
             body = repo.codeRequired,
             headers = repo.headers
         )
-        checkCodeApi(response)
+
         if (response.isSuccessful) work?.onSuccess(ResultWrapper.Success(BaseDTO(data = response.body())))
+        else checkCodeAErrorApi(response)
     }
 
     private suspend fun put(repo: Repo) {
@@ -71,8 +73,9 @@ class RequestService @Inject constructor(private val apiService: ApiService, val
             body = repo.codeRequired,
             headers = repo.headers
         )
-        checkCodeApi(response)
+
         if (response.isSuccessful) work?.onSuccess(ResultWrapper.Success(BaseDTO(data = response.body())))
+        else checkCodeAErrorApi(response)
     }
 
     private suspend fun delete(repo: Repo) {
@@ -81,8 +84,9 @@ class RequestService @Inject constructor(private val apiService: ApiService, val
             params = repo.codeRequired as Map<String, String>?,
             headers = repo.headers
         )
-        checkCodeApi(response)
+
         if (response.isSuccessful) work?.onSuccess(ResultWrapper.Success(BaseDTO(data = response.body())))
+        else  checkCodeAErrorApi(response)
     }
 
     private fun isOnline(): Boolean {
@@ -125,7 +129,7 @@ class RequestService @Inject constructor(private val apiService: ApiService, val
         suspend fun onError(error: ResultWrapper.Error): ResultWrapper.Error
     }
 
-    private suspend fun checkCodeApi(response: Response<JsonElement>) {
+    private suspend fun checkCodeAErrorApi(response: Response<JsonElement>) {
         when (response.code()) {
             HttpURLConnection.HTTP_UNAUTHORIZED -> {
                 work?.onError(ResultWrapper.Error(error = response.message()))

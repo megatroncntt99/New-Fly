@@ -13,8 +13,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.vannv.train.newsfly.network.RequestState
-import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.presentation.RequestState
+import com.vannv.train.newsfly.presentation.UiState
+
 import kotlinx.coroutines.CoroutineScope
 
 /**

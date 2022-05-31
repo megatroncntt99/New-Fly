@@ -1,7 +1,8 @@
 package com.vannv.train.newsfly.utils
 
-import com.vannv.train.newsfly.network.RequestState
-import com.vannv.train.newsfly.network.UiState
+
+import com.vannv.train.newsfly.presentation.RequestState
+import com.vannv.train.newsfly.presentation.UiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow

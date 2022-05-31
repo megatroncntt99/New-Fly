@@ -1,4 +1,4 @@
-package com.vannv.train.newsfly.network
+package com.vannv.train.newsfly.presentation
 
 /**
  * Creator: Nguyen Van Van

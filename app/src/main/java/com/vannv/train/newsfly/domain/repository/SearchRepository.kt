@@ -2,7 +2,8 @@ package com.vannv.train.newsfly.domain.repository
 
 import com.vannv.train.newsfly.data.remote.base.Repo
 import com.vannv.train.newsfly.domain.entity.New
-import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.presentation.UiState
+
 import kotlinx.coroutines.flow.Flow
 
 /**

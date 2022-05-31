@@ -2,7 +2,7 @@ package com.vannv.train.newsfly.presentation.search
 
 import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.usecase.SearchUseCase
-import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.presentation.UiState
 import com.vannv.train.newsfly.presentation.base.BaseViewModel
 import com.vannv.train.newsfly.utils.LogCat
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +28,17 @@ class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCa
 
     init {
         handleAction()
+        viewModelScope {
+            keySearch.collect {
+                LogCat.i("Search Key: $it")
+                searchListData(it)
+            }
+        }
     }
 
     private fun handleAction() {
         viewModelScope {
-            keySearch.collect {
+            searchAction.consumeAsFlow().collect {
                 LogCat.i("Search Key: $it")
                 searchListData(it)
             }

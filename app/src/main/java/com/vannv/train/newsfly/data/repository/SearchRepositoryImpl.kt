@@ -6,8 +6,8 @@ import com.vannv.train.newsfly.data.datasource.news.NewRemoteDataSource
 import com.vannv.train.newsfly.data.remote.base.Repo
 import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.repository.SearchRepository
-import com.vannv.train.newsfly.network.RequestState
-import com.vannv.train.newsfly.network.UiState
+import com.vannv.train.newsfly.presentation.UiState
+
 import com.vannv.train.newsfly.utils.LogCat
 import com.vannv.train.newsfly.utils.networkBoundResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
