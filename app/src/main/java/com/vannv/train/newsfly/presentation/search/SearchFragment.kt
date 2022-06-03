@@ -2,13 +2,20 @@ package com.vannv.train.newsfly.presentation.search
 
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
+import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.widget.LoadMoreRecyclerView
 import com.vannv.train.newsfly.utils.LogCat
@@ -38,6 +45,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
 
     override fun setupUI() {
         getVB().searchViewModer = viewModel
+        getVB().model = New("", "", "", "", "", "", "Van", "")
         getVB().rvListNew.apply {
             adapter = newsAdapter
             setOnLoadMoreListener(object : LoadMoreRecyclerView.OnLoadMoreListener {
@@ -51,6 +59,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
                     }
                 }
             })
+        }
+        getVB().setOnItemClick {
+            Toast.makeText(requireContext(), getVB().model?.title ?: "", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -73,5 +84,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
                 )
             }
         }
+    }
+}
+
+@BindingAdapter("setTitleNew")
+fun AppCompatEditText.setTitleNew(new: New) {
+    this.addTextChangedListener {
+        new.title = it.toString()
     }
 }

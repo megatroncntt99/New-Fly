@@ -16,6 +16,10 @@ data class New(
     val description: String,
     val publishedAt: String,
     val source: String,
-    val title: String,
+    var title: String,
     val urlToImage: String
-)
+){
+    fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        title = s.toString()
+    }
+}

@@ -1,7 +1,11 @@
 package com.vannv.train.newsfly.presentation.search
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import com.vannv.train.newsfly.domain.entity.New
 import com.vannv.train.newsfly.domain.usecase.SearchUseCase
+import com.vannv.train.newsfly.presentation.RequestState
 import com.vannv.train.newsfly.presentation.UiState
 import com.vannv.train.newsfly.presentation.base.BaseViewModel
 import com.vannv.train.newsfly.utils.LogCat
@@ -11,6 +15,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
 
@@ -40,14 +45,16 @@ class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCa
         viewModelScope {
             searchAction.consumeAsFlow().collect {
                 LogCat.i("Search Key: $it")
-                searchListData(it)
+//                searchListData(it)
             }
         }
     }
 
     private var searchJob: Job? = null
-   private fun searchListData(key: String) {
+    private fun searchListData(key: String) {
         if (key.trim().isEmpty()) return
+        _uiNews.value = UiState(RequestState.NON
+        )
         searchJob?.cancel()
         searchJob = viewModelScope {
             delay(1000L)
