@@ -1,5 +1,6 @@
 package com.vannv.train.newsfly.data.remote.repo
 
+import com.vannv.train.newsfly.presentation.jetpackcomposepaging.screens.home.HomeRepo
 import com.vannv.train.newsfly.presentation.search.SearchRepo
 
 /**
@@ -7,7 +8,7 @@ import com.vannv.train.newsfly.presentation.search.SearchRepo
  * Date: 23/05/2022
  */
 
-class RepoManager : SearchRepo
+class RepoManager : SearchRepo, HomeRepo
 
 interface BaseRepo {
 }

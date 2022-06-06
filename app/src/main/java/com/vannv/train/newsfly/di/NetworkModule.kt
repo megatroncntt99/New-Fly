@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.vannv.train.newsfly.data.remote.base.ApiService
 import com.vannv.train.newsfly.data.remote.base.RequestService
+import com.vannv.train.newsfly.utils.Constant
 import com.vannv.train.newsfly.utils.Urls
 import dagger.Module
 import dagger.Provides
@@ -48,7 +49,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideApiService(gson: Gson, okHttpClient: OkHttpClient): ApiService {
-        return Retrofit.Builder().baseUrl(Urls.BASE_URL)
+        return Retrofit.Builder().baseUrl(Constant.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

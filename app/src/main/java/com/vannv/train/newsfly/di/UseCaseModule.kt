@@ -1,8 +1,8 @@
 package com.vannv.train.newsfly.di
 
+import com.vannv.train.newsfly.domain.repository.HomeRepository
 import com.vannv.train.newsfly.domain.repository.SearchRepository
-import com.vannv.train.newsfly.domain.usecase.GetNews
-import com.vannv.train.newsfly.domain.usecase.SearchUseCase
+import com.vannv.train.newsfly.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,5 +20,12 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Singleton
     @Provides
-    fun provideSearchUseCase(searchRepository: SearchRepository) =SearchUseCase(getNews = GetNews(searchRepository))
+    fun provideSearchUseCase(searchRepository: SearchRepository) =
+        SearchUseCase(getNews = GetNews(searchRepository))
+
+    @Provides
+    fun provideHomeUseCase(homeRepository: HomeRepository) = HomeUseCase(
+        getAllImages = GetAllImages(homeRepository),
+        getSearchImages = GetSearchImages(homeRepository)
+    )
 }

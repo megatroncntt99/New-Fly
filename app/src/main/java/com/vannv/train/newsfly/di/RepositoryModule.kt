@@ -4,7 +4,9 @@ import com.vannv.train.newsfly.data.datasource.news.NewLocalDataSource
 import com.vannv.train.newsfly.data.datasource.news.NewLocalDataSourceImpl
 import com.vannv.train.newsfly.data.datasource.news.NewRemoteDataSource
 import com.vannv.train.newsfly.data.datasource.news.NewRemoteDataSourceImpl
+import com.vannv.train.newsfly.data.repository.HomeRepositoryImpl
 import com.vannv.train.newsfly.data.repository.SearchRepositoryImpl
+import com.vannv.train.newsfly.domain.repository.HomeRepository
 import com.vannv.train.newsfly.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
@@ -27,4 +29,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository
+
+    @Binds
+    abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 }
