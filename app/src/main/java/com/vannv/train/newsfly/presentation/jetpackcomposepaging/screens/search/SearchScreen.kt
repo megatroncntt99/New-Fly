@@ -1,8 +1,6 @@
 package com.vannv.train.newsfly.presentation.jetpackcomposepaging.screens.search
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -10,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -42,15 +41,6 @@ fun SearchScreen(
                 navController.popBackStack()
             })
     }) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = paddingValues.calculateBottomPadding())
-                .verticalScroll(rememberScrollState())
-        ) {
-            Text("Bottom app bar padding:  $paddingValues")
-            ListContent(unsplashImages = searchImages)
-        }
-
+        ListContent(unsplashImages = searchImages)
     }
 }

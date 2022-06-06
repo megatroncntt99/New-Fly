@@ -43,14 +43,21 @@ import com.vannv.train.newsfly.utils.LogCat
 @Composable
 fun ListContent(unsplashImages: LazyPagingItems<UnsplashImage>) {
     LogCat.d("${unsplashImages.loadState}")
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(items = unsplashImages) { item ->
-            item?.let { UnsplashItem(unsplashImage = it) }
+    if (unsplashImages.itemCount != 0) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(items = unsplashImages) { item ->
+                item?.let { UnsplashItem(unsplashImage = it) }
+            }
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator(color =  Color.Gray)
         }
     }
+
 }
 
 @Composable
@@ -105,7 +112,8 @@ fun UnsplashItem(unsplashImage: UnsplashImage) {
                 color = Color.White,
                 fontSize = 16.sp,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(.8F)
             )
             LikeCounter(
                 painter = painterResource(id = R.drawable.ic_heart),
@@ -120,7 +128,7 @@ fun UnsplashItem(unsplashImage: UnsplashImage) {
 @Composable
 fun LikeCounter(modifier: Modifier = Modifier, painter: Painter, likes: String) {
     Row(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {

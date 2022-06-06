@@ -25,8 +25,6 @@ class HomeViewModel @Inject constructor(private val homeUseCase: HomeUseCase) :
     BaseViewModel<HomeRepo>() {
     val getAllImages = homeUseCase.getAllImages.invoke()
 
-    fun getSearchImages(query: String) = homeUseCase.getSearchImages.invoke(query)
-
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 

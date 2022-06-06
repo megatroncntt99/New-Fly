@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vannv.train.newsfly.presentation.jetpackcomposepaging.screens.home.HomeScreen
+import com.vannv.train.newsfly.presentation.jetpackcomposepaging.screens.search.SearchScreen
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -18,7 +19,7 @@ fun SetupNavGraph(navController: NavHostController) {
             HomeScreen(navController = navController)
         }
         composable(Screen.Search.route) {
-
+            SearchScreen(navController = navController)
         }
     }
 }

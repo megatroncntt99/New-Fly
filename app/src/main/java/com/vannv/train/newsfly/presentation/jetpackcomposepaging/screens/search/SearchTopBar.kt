@@ -53,7 +53,7 @@ fun SearchTopBar(
                     color = Color.White
                 )
             },
-            textStyle = TextStyle(color = MaterialTheme.colors.secondary),
+            textStyle = TextStyle(color = Color.White),
             maxLines = 1,
             leadingIcon = {
                 IconButton(onClick = { }, modifier = Modifier.alpha(ContentAlpha.medium)) {
@@ -79,7 +79,7 @@ fun SearchTopBar(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 backgroundColor = Color.Transparent,
-                cursorColor = MaterialTheme.colors.secondary
+                cursorColor = Color.Black,
             )
         )
     }
