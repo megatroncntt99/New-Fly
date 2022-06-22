@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(private val searchUseCase: SearchUseCa
         viewModelScope {
             searchAction.consumeAsFlow().collect {
                 LogCat.i("Search Key: $it")
-                searchListData(it)
+//                searchListData(it)
             }
         }
     }

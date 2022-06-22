@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/custom_cricle.xml" value="0.148" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/custom_cursor.xml" value="0.146" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/splash_screen.xml" value="0.146" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/abc.xml" value="0.20521590423257802" />
@@ -12,6 +13,7 @@
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/home_fragment.xml" value="0.136" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/item_popular_news.xml" value="0.1902497027348395" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/item_recent_news.xml" value="0.128" />
+        <entry key="..\:/Android/NewsFly/app/src/main/res/layout/layout_pan_tilt.xml" value="0.20521590423257802" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/load_state_footer.xml" value="0.1902497027348395" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/popular_news_shimmer.xml" value="0.1902497027348395" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/layout/recent_news_shimmer.xml" value="0.1" />
