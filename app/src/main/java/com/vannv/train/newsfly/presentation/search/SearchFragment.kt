@@ -56,7 +56,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
         }
         getVB().viewPanTilt.setListener(object :DraggableListener{
 
-            override fun moveNone() {
+            override fun noneMoveCamera() {
                 LogCat.d("Move camera none")
             }
 
