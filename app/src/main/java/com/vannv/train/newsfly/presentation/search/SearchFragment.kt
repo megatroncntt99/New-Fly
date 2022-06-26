@@ -1,5 +1,6 @@
 package com.vannv.train.newsfly.presentation.search
 
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -77,6 +78,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
             }
 
         })
+        getVB().circleBorderUp.setColorBorder(Color.GREEN)
     }
 
     override fun setupVM() {
