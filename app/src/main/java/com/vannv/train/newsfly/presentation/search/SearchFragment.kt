@@ -1,21 +1,13 @@
 package com.vannv.train.newsfly.presentation.search
 
-import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
-import android.view.View
 import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
-import com.vannv.train.newsfly.presentation.widget.DraggableListener
+import com.vannv.train.newsfly.presentation.widget.MoveCameraListener
 import com.vannv.train.newsfly.presentation.widget.LoadMoreRecyclerView
 import com.vannv.train.newsfly.utils.LogCat
-import com.vannv.train.newsfly.utils.Utility
 import com.vannv.train.newsfly.utils.handleStateFlow
 import com.vannv.train.newsfly.utils.launchWhenCreated
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +47,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
                 }
             })
         }
-        getVB().viewPanTilt.setListener(object :DraggableListener{
+        getVB().viewPanTilt.setListener(object :MoveCameraListener{
 
             override fun noneMoveCamera() {
                 LogCat.d("Move camera none")

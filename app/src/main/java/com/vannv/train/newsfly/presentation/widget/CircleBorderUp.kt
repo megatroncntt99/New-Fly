@@ -8,6 +8,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.vannv.train.newsfly.R
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -27,13 +29,14 @@ class CircleBorderUp : View {
 
 
     private val paint = Paint().apply {
-        color = Color.BLACK
+        color = ContextCompat.getColor(context, R.color.borderCircleInActive)
         style = Paint.Style.STROKE
         strokeWidth = borderWith
     }
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
+
         val width = width - borderWith
         val height = height - borderWith
         val left = (getWidth() - width) / 2.0f
@@ -43,7 +46,7 @@ class CircleBorderUp : View {
     }
 
     fun setColorBorder(color: Int) {
-        paint.color = color
+        paint.color = ContextCompat.getColor(context, color)
         invalidate()
     }
 
