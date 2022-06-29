@@ -2,6 +2,7 @@ package com.vannv.train.newsfly.presentation.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -21,10 +22,14 @@ class ViewPanTilt : RelativeLayout {
     private var view: View =
         LayoutInflater.from(context).inflate(R.layout.layout_pan_tilt, this, true)
     private val cardView by lazy { view.findViewById<CardView>(R.id.card_view) }
-    private val viewUp by lazy { view.findViewById<ImageView>(R.id.view_up) }
-    private val viewDown by lazy { view.findViewById<ImageView>(R.id.view_down) }
-    private val viewLeft by lazy { view.findViewById<ImageView>(R.id.view_left) }
-    private val viewRight by lazy { view.findViewById<ImageView>(R.id.view_right) }
+    private val viewUp by lazy { view.findViewById<CircleBorderUp>(R.id.circle_border_up) }
+    private val viewDown by lazy { view.findViewById<CircleBorderDown>(R.id.circle_border_down) }
+    private val viewLeft by lazy { view.findViewById<CircleBorderLeft>(R.id.circle_border_left) }
+    private val viewRight by lazy { view.findViewById<CircleBorderRight>(R.id.circle_border_right) }
+    private val ivUp by lazy { view.findViewById<ImageView>(R.id.iv_up) }
+    private val ivDown by lazy { view.findViewById<ImageView>(R.id.iv_down) }
+    private val ivLeft by lazy { view.findViewById<ImageView>(R.id.iv_left) }
+    private val ivRight by lazy { view.findViewById<ImageView>(R.id.iv_right) }
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -42,43 +47,43 @@ class ViewPanTilt : RelativeLayout {
 
     private fun setEnableColorUp() {
         draggableListener?.moveCameraUp()
-        viewUp.setBackgroundResource(R.color.white)
-        viewDown.setBackgroundResource(R.color.black)
-        viewLeft.setBackgroundResource(R.color.black)
-        viewRight.setBackgroundResource(R.color.black)
+        viewUp.setColorBorder(Color.WHITE)
+        viewDown.setColorBorder(Color.BLACK)
+        viewLeft.setColorBorder(Color.BLACK)
+        viewRight.setColorBorder(Color.BLACK)
     }
 
     private fun setEnableColorDown() {
         draggableListener?.moveCameraDown()
-        viewUp.setBackgroundResource(R.color.black)
-        viewDown.setBackgroundResource(R.color.white)
-        viewLeft.setBackgroundResource(R.color.black)
-        viewRight.setBackgroundResource(R.color.black)
+        viewUp.setColorBorder(Color.BLACK)
+        viewDown.setColorBorder(Color.WHITE)
+        viewLeft.setColorBorder(Color.BLACK)
+        viewRight.setColorBorder(Color.BLACK)
     }
 
 
     private fun setEnableColorLeft() {
         draggableListener?.moveCameraLeft()
-        viewUp.setBackgroundResource(R.color.black)
-        viewDown.setBackgroundResource(R.color.black)
-        viewLeft.setBackgroundResource(R.color.white)
-        viewRight.setBackgroundResource(R.color.black)
+        viewUp.setColorBorder(Color.BLACK)
+        viewDown.setColorBorder(Color.BLACK)
+        viewLeft.setColorBorder(Color.WHITE)
+        viewRight.setColorBorder(Color.BLACK)
     }
 
     private fun setEnableColorRight() {
         draggableListener?.moveCameraRight()
-        viewUp.setBackgroundResource(R.color.black)
-        viewDown.setBackgroundResource(R.color.black)
-        viewLeft.setBackgroundResource(R.color.black)
-        viewRight.setBackgroundResource(R.color.white)
+        viewUp.setColorBorder(Color.BLACK)
+        viewDown.setColorBorder(Color.BLACK)
+        viewLeft.setColorBorder(Color.BLACK)
+        viewRight.setColorBorder(Color.WHITE)
     }
 
     private fun setDisableAllView() {
         draggableListener?.noneMoveCamera()
-        viewUp.setBackgroundResource(R.color.black)
-        viewDown.setBackgroundResource(R.color.black)
-        viewLeft.setBackgroundResource(R.color.black)
-        viewRight.setBackgroundResource(R.color.black)
+        viewUp.setColorBorder(Color.BLACK)
+        viewDown.setColorBorder(Color.BLACK)
+        viewLeft.setColorBorder(Color.BLACK)
+        viewRight.setColorBorder(Color.BLACK)
     }
 
     init {
@@ -159,7 +164,7 @@ class ViewPanTilt : RelativeLayout {
             true
         }
 
-        viewUp.setOnTouchListener(
+        ivUp.setOnTouchListener(
             RepeatListener(400, 100,
                 onHold = {
                     setEnableColorUp()
@@ -169,7 +174,7 @@ class ViewPanTilt : RelativeLayout {
                     setDisableAllView()
                 })
         )
-        viewLeft.setOnTouchListener(
+        ivLeft.setOnTouchListener(
             RepeatListener(400, 100,
                 onHold = {
                     setEnableColorLeft()
@@ -179,7 +184,7 @@ class ViewPanTilt : RelativeLayout {
                     setDisableAllView()
                 })
         )
-        viewRight.setOnTouchListener(
+        ivRight.setOnTouchListener(
             RepeatListener(400, 100,
                 onHold = {
                     setEnableColorRight()
@@ -190,7 +195,7 @@ class ViewPanTilt : RelativeLayout {
                 })
         )
 
-        viewDown.setOnTouchListener(
+        ivDown.setOnTouchListener(
             RepeatListener(400, 100,
                 onHold = {
                     setEnableColorDown()

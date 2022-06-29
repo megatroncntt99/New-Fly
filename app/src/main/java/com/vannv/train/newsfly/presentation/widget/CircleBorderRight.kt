@@ -11,10 +11,9 @@ import android.view.View
 
 /**
  * Author: vannv8@fpt.com.vn
- * Date: 26/06/2022
+ * Date: 27/06/2022
  */
-
-class CircleBorderUp : View {
+class CircleBorderRight : View {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -39,7 +38,7 @@ class CircleBorderUp : View {
         val left = (getWidth() - width) / 2.0f
         val top = (getHeight() - height) / 2.0f
         val oval = RectF(left, top, left + width, top + height)
-        canvas.drawArc(oval, 226F, 88F, false, paint)
+        canvas.drawArc(oval, 316F, 88F, false, paint)
     }
 
     fun setColorBorder(color: Int) {

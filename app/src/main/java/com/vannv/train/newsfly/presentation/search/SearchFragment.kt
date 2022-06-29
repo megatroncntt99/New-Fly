@@ -78,7 +78,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
             }
 
         })
-        getVB().circleBorderUp.setColorBorder(Color.GREEN)
     }
 
     override fun setupVM() {

@@ -42,19 +42,7 @@
             android:id="@+id/view_pan_tilt"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </com.vannv.train.newsfly.presentation.widget.ViewPanTilt>
-
-        <com.vannv.train.newsfly.presentation.widget.CircleBorderUp
-            android:id="@+id/circle_border_up"
-            android:layout_width="300dp"
-            android:background="@color/red"
-            android:layout_height="300dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
