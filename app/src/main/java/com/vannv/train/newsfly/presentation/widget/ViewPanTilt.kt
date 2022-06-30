@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import com.vannv.train.newsfly.R
+import com.vannv.train.newsfly.utils.LogCat
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -78,8 +79,10 @@ class ViewPanTilt : RelativeLayout {
 
 
     private fun draggableSetup() {
+        joyStickView.setActiveMove(R.color.moveCameraActive)
         joyStickView.setOnMoveListener(object : JoystickView.OnMoveListener {
             override fun onMove(angle: Int, strength: Int) {
+                LogCat.d("Strength: $strength")
                 if (angle == 0 && strength == 0) {
                     setDisableAllView()
                     return
@@ -93,10 +96,12 @@ class ViewPanTilt : RelativeLayout {
                     setEnableColorUp()
                     return
                 }
+
                 if (angle in 135..225 && strength > 10) {
                     setEnableColorLeft()
                     return
                 }
+
                 if (angle in 225..315 && strength > 10) {
                     setEnableColorDown()
                     return
@@ -118,5 +123,4 @@ interface MoveCameraListener {
     fun moveCameraRight()
     fun moveCameraUp()
     fun moveCameraDown()
-
 }

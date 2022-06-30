@@ -1,6 +1,7 @@
 package com.vannv.train.newsfly.presentation.widget
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,7 +14,12 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import androidx.core.content.ContextCompat
 import com.vannv.train.newsfly.R
+import com.vannv.train.newsfly.utils.LogCat
+import kotlin.math.atan2
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -64,12 +70,8 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
     // SIZE
     private var mButtonRadius = 0
     private var mBorderRadius = 0
-
     private var mBorderAlpha = 0
-
-
     private var mBackgroundRadius = 0f
-
 
     private var mCallback: OnMoveListener? = null
     private var mLoopInterval = DEFAULT_LOOP_INTERVAL.toLong()
@@ -80,8 +82,8 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val mHandlerMultipleLongPress = Handler(Looper.getMainLooper())
     private val mRunnableMultipleLongPress: Runnable
     private var mMoveTolerance = 0
-
     private var buttonDirection = 0
+    private var isDrag: Boolean = false
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs) {}
 
@@ -93,6 +95,16 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mPosY = width / 2
         mCenterY = mPosY
         mFixedCenterY = mCenterY
+    }
+
+    fun setActiveMove(color: Int) {
+        isEnabled = true
+        mPaintCircleButton.color = ContextCompat.getColor(context, color)
+    }
+
+    fun setDisableMove(color: Int) {
+        isEnabled = false
+        mPaintCircleButton.color = ContextCompat.getColor(context, color)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -125,7 +137,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
         super.onSizeChanged(w, h, oldW, oldH)
         initPosition()
 
-        // radius based on smallest size : height OR width
         val d = w.coerceAtMost(h)
         mButtonRadius = (d / 2 * mButtonSizeRatio).toInt()
         mBorderRadius = (d / 2 * mBackgroundSizeRatio).toInt()
@@ -134,56 +145,38 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // setting the measured values to resize the view to a certain width and height
         val d = measure(widthMeasureSpec).coerceAtMost(measure(heightMeasureSpec))
         setMeasuredDimension(d, d)
     }
 
     private fun measure(measureSpec: Int): Int {
         return if (MeasureSpec.getMode(measureSpec) == MeasureSpec.UNSPECIFIED) {
-            // if no bounds are specified return a default size (200)
             DEFAULT_SIZE
         } else {
             MeasureSpec.getSize(measureSpec)
         }
     }
-    /*
-    USER EVENT
-     */
-    /**
-     * Handle touch screen motion event. Move the button according to the
-     * finger coordinate and detect longPress by multiple pointers only.
-     *
-     * @param event The motion event.
-     * @return True if the event was handled, false otherwise.
-     */
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // if disabled we don't move the
         if (!mEnabled) {
             return true
         }
-
-
-        // to move the button according to the finger coordinate
-        // (or limited to one axe according to direction option
+        if (isDrag && event.action != MotionEvent.ACTION_UP)
+            return false
         mPosY = if (buttonDirection < 0) mCenterY else event.y.toInt() // direction negative is horizontal axe
         mPosX = if (buttonDirection > 0) mCenterX else event.x.toInt() // direction positive is vertical axe
         if (event.action == MotionEvent.ACTION_UP) {
-
-            // stop listener because the finger left the touch screen
+            isDrag = false
             mThread.interrupt()
 
-            // re-center the button or not (depending on settings)
             if (isAutoReCenterButton) {
                 resetButtonPosition()
 
-                // update now the last strength and angle which should be zero after resetButton
                 mCallback?.onMove(angle, strength)
             }
-
-            // if mAutoReCenterButton is false we will send the last strength and angle a bit
-            // later only after processing new position X and Y otherwise it could be above the border limit
         }
+
         if (event.action == MotionEvent.ACTION_DOWN) {
             if (mThread.isAlive) {
                 mThread.interrupt()
@@ -193,7 +186,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             mCallback?.onMove(angle, strength)
         }
         when (event.actionMasked) {
-            MotionEvent.ACTION_DOWN ->                 // when the first touch occurs we update the center (if set to auto-defined center)
+            MotionEvent.ACTION_DOWN ->
                 if (!mFixedCenter) {
                     mCenterX = mPosX
                     mCenterY = mPosY
@@ -220,13 +213,15 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
         }
-        val abs = Math.sqrt(
+        val abs = sqrt(
             ((mPosX - mCenterX) * (mPosX - mCenterX)
                     + (mPosY - mCenterY) * (mPosY - mCenterY)).toDouble()
         )
 
         // (abs > mBorderRadius) means button is too far therefore we limit to border
         // (buttonStickBorder && abs != 0) means wherever is the button we stick it to the border except when abs == 0
+        LogCat.d("Bbs: $abs ----- BorderRadius: $mBorderRadius")
+
         if (abs > mBorderRadius || isButtonStickToBorder && abs != 0.0) {
             mPosX = ((mPosX - mCenterX) * mBorderRadius / abs + mCenterX).toInt()
             mPosY = ((mPosY - mCenterY) * mBorderRadius / abs + mCenterY).toInt()
@@ -235,10 +230,16 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             // Now update the last strength and angle if not reset to center
             mCallback?.onMove(angle, strength)
         }
+        if (abs > 2 * mBorderRadius + mButtonSizeRatio) {
+            mPosX = mCenterX
+            mPosY = mCenterY
+            isDrag = true
+        }
 
 
         // to force a new draw
         invalidate()
+
         return true
     }
     /*
@@ -250,7 +251,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
      */
     private val angle: Int
         private get() {
-            val angle = Math.toDegrees(Math.atan2((mCenterY - mPosY).toDouble(), (mPosX - mCenterX).toDouble())).toInt()
+            val angle = Math.toDegrees(atan2((mCenterY - mPosY).toDouble(), (mPosX - mCenterX).toDouble())).toInt()
             return if (angle < 0) angle + 360 else angle // make it as a regular counter-clock protractor
         }
 
@@ -259,7 +260,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
      * @return the strength of the button
      */
     private val strength: Int
-        private get() = (100 * Math.sqrt(
+        private get() = (100 * sqrt(
             ((mPosX - mCenterX)
                     * (mPosX - mCenterX) + (mPosY - mCenterY)
                     * (mPosY - mCenterY)).toDouble()
@@ -268,7 +269,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
     /**
      * Reset the button position to the center.
      */
-    fun resetButtonPosition() {
+    private fun resetButtonPosition() {
         mPosX = mCenterX
         mPosY = mCenterY
     }
@@ -298,42 +299,19 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-    /**
-     * Return the size of the background (as a ratio of the total width/height)
-     * Default is 0.75 (75%).
-     * @return background size (value between 0.0 and 1.0)
-     */
     fun getmBackgroundSizeRatio(): Float {
         return mBackgroundSizeRatio
     }
 
-    /**
-     * Return the relative X coordinate of button center related
-     * to top-left virtual corner of the border
-     * @return coordinate of X (normalized between 0 and 100)
-     */
     val normalizedX: Int
         get() = if (width == 0) {
             50
-        } else Math.round((mPosX - mButtonRadius) * 100.0f / (width - mButtonRadius * 2))
-
-    /**
-     * Return the relative Y coordinate of the button center related
-     * to top-left virtual corner of the border
-     * @return coordinate of Y (normalized between 0 and 100)
-     */
+        } else ((mPosX - mButtonRadius) * 100.0f / (width - mButtonRadius * 2)).roundToInt()
     val normalizedY: Int
         get() = if (height == 0) {
             50
-        } else Math.round((mPosY - mButtonRadius) * 100.0f / (height - mButtonRadius * 2))
-    /**
-     * Return the alpha of the border
-     * @return it should be an integer between 0 and 255 previously set
-     */
-    /**
-     * Set the border alpha for this JoystickView.
-     * @param alpha the transparency of the border between 0 and 255
-     */
+        } else ((mPosY - mButtonRadius) * 100.0f / (height - mButtonRadius * 2)).roundToInt()
+
     var borderAlpha: Int
         get() = mBorderAlpha
         set(alpha) {

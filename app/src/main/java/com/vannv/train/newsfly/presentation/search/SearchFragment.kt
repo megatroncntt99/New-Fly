@@ -7,9 +7,7 @@ import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.widget.MoveCameraListener
 import com.vannv.train.newsfly.presentation.widget.LoadMoreRecyclerView
-import com.vannv.train.newsfly.utils.LogCat
-import com.vannv.train.newsfly.utils.handleStateFlow
-import com.vannv.train.newsfly.utils.launchWhenCreated
+import com.vannv.train.newsfly.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -50,23 +48,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
         getVB().viewPanTilt.setListener(object :MoveCameraListener{
 
             override fun noneMoveCamera() {
-                LogCat.d("Move camera none")
+                getVB().textView.visible()
             }
 
             override fun moveCameraLeft() {
-                LogCat.d("moveCameraLeft")
+                getVB().textView.gone()
             }
 
             override fun moveCameraRight() {
-                LogCat.d("moveCameraRight")
+                getVB().textView.gone()
             }
 
             override fun moveCameraUp() {
-                LogCat.d("moveCameraUp")
+                getVB().textView.gone()
             }
 
             override fun moveCameraDown() {
-                LogCat.d("moveCameraDown")
+                getVB().textView.gone()
             }
 
         })
