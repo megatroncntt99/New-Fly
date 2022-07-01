@@ -20,6 +20,8 @@
     <color name="borderCircleActive">#9FC4C8D5</color>
     <color name="moveCameraInActive">#9E3A3838</color>
     <color name="moveCameraActive">#edf0f3</color>
+    <color name="chipUnSelect">#d8d8db</color>
+    <color name="chipSelect">#484848</color>
 
 
 </resources>

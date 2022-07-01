@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#323643">
 
         <View
             android:id="@+id/view_live_stream"
@@ -35,25 +36,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_moment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_select_chip"
+            android:gravity="center"
             android:text="Moments"
-            android:textAllCaps="false" />
+            android:textColor="@color/chipSelect" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_unselect_chip"
+            android:gravity="center"
             android:text="Live"
-            android:textAllCaps="false" />
+            android:textColor="@color/chipUnSelect" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_recording"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_unselect_chip"
+            android:gravity="center"
             android:text="24/7 recording"
-            android:textAllCaps="false" />
+            android:textColor="@color/chipUnSelect" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

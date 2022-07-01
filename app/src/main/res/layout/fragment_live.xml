@@ -18,8 +18,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -27,30 +28,38 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
                     android:layout_marginStart="10dp"
-                    android:text="Name Camera\n01/07/2021" />
+                    android:text="Name Camera\n01/07/2021"
+                    android:textColor="@color/white" />
 
-                <Button
+                <TextView
                     android:id="@+id/btn_record"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_select_chip_live"
+                    android:gravity="center"
                     android:text="Record"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textColor="@color/chipUnSelect" />
 
-                <Button
+                <TextView
                     android:id="@+id/btn_pan_tilt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/bg_unselect_chip"
+                    android:gravity="center"
                     android:text="Pan &amp; Tilt"
-                    android:textAllCaps="false" />
+                    android:textColor="@color/chipUnSelect" />
 
-                <Button
+                <TextView
                     android:id="@+id/btn_push_to_talk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_unselect_chip"
+                    android:gravity="center"
                     android:text="24/7 recording"
-                    android:textAllCaps="false" />
+                    android:textColor="@color/chipUnSelect" />
             </LinearLayout>
         </HorizontalScrollView>
 

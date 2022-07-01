@@ -3,6 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/bg_select_chip.xml" value="0.191" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/bg_select_chip_live.xml" value="0.191" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/bg_unselect_chip.xml" value="0.191" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/custom_circle_up.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/custom_cursor.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/demo.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_back.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_dark_mode.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_down.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_left.xml" value="0.2255" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_light_mode.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_mic.xml" value="0.1975" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_rectangle_1.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_right.xml" value="0.2255" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_sad.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_search.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/drawable/ic_up.xml" value="0.1785" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/demo.xml" value="0.2526041666666667" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_live.xml" value="0.33" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_live_stream.xml" value="0.33" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_moment.xml" value="0.38645833333333335" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_pan_tilt.xml" value="0.3875" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_push_to_talk.xml" value="0.2" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_record.xml" value="0.38645833333333335" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_recording.xml" value="0.3875" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/fragment_search.xml" value="0.16" />
+        <entry key="..\:/Android/NewFly/app/src/main/res/layout/layout_pan_tilt.xml" value="0.25" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/custom_cricle.xml" value="0.148" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/custom_cursor.xml" value="0.146" />
         <entry key="..\:/Android/NewsFly/app/src/main/res/drawable/splash_screen.xml" value="0.146" />

@@ -1,7 +1,9 @@
 package com.vannv.train.newsfly.presentation.livestream.live
 
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentLiveBinding
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
@@ -28,13 +30,34 @@ class LiveFragment : BaseFragment<FragmentLiveBinding, SearchFragmentArgs, Searc
         getVB().viewPagerLive.isUserInputEnabled = false
         getVB().btnRecord.setOnClickListener {
             getVB().viewPagerLive.setCurrentItem(0, false)
+            selectChipRecord()
         }
         getVB().btnPanTilt.setOnClickListener {
             getVB().viewPagerLive.setCurrentItem(1, false)
+            selectChipPanTilt()
         }
         getVB().btnPushToTalk.setOnClickListener {
             getVB().viewPagerLive.setCurrentItem(2, false)
+            selectChipTalk()
         }
+    }
+
+    private fun selectChipRecord() {
+        getVB().btnRecord.setBackgroundResource(R.drawable.bg_select_chip_live)
+        getVB().btnPanTilt.setBackgroundResource(R.drawable.bg_unselect_chip)
+        getVB().btnPushToTalk.setBackgroundResource(R.drawable.bg_unselect_chip)
+    }
+
+    private fun selectChipPanTilt() {
+        getVB().btnRecord.setBackgroundResource(R.drawable.bg_unselect_chip)
+        getVB().btnPanTilt.setBackgroundResource(R.drawable.bg_select_chip_live)
+        getVB().btnPushToTalk.setBackgroundResource(R.drawable.bg_unselect_chip)
+    }
+
+    private fun selectChipTalk() {
+        getVB().btnRecord.setBackgroundResource(R.drawable.bg_unselect_chip)
+        getVB().btnPanTilt.setBackgroundResource(R.drawable.bg_unselect_chip)
+        getVB().btnPushToTalk.setBackgroundResource(R.drawable.bg_select_chip_live)
     }
 
     override fun setupVM() {
