@@ -230,7 +230,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             // Now update the last strength and angle if not reset to center
             mCallback?.onMove(angle, strength)
         }
-        if (abs > 2 * mBorderRadius + mButtonSizeRatio) {
+        if (abs > 2.5 * mBorderRadius) {
             mPosX = mCenterX
             mPosY = mCenterY
             isDrag = true
