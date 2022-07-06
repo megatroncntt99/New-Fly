@@ -1,6 +1,7 @@
 package com.vannv.train.newsfly.presentation.livestream
 
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,7 @@ import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.livestream.adapter.FragmentLiveStreamAdapter
 import com.vannv.train.newsfly.presentation.search.SearchFragmentArgs
 import com.vannv.train.newsfly.presentation.search.SearchViewModel
+import com.vannv.train.newsfly.utils.*
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -41,6 +43,27 @@ class LiveStreamFragment : BaseFragment<FragmentLiveStreamBinding, LiveStreamFra
         getVB().btnRecording.setOnClickListener {
             getVB().viewPagerLiveStream.setCurrentItem(2, false)
             selectChipRecording()
+        }
+        childFragmentManager.setFragmentResultListener(
+            Constant.REQUEST_LIVE_STREAM,
+            this,
+            fragmentResultListener
+        )
+    }
+
+    private val fragmentResultListener = FragmentResultListener { _, result ->
+        val anyData = result.getParcelable<DataFragmentResult>(Constant.BUNDLE_ANY)
+            ?: return@FragmentResultListener
+        when (anyData) {
+            is DataFragmentResult.OnPanTiltCamera -> {
+                getVB().tabLayout.invisible()
+            }
+            is DataFragmentResult.OnNotPanTiltCamera -> {
+                getVB().tabLayout.visible()
+            }
+            else -> {
+                LogCat.e(anyData.toString())
+            }
         }
     }
 

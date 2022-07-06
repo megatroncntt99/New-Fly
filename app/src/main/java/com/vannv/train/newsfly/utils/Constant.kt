@@ -8,4 +8,6 @@ package com.vannv.train.newsfly.utils
 
 object Constant {
     const val NEWS_STARTING_PAGE_INDEX = 1
+    const val BUNDLE_ANY = "BUNDLE_ANY"
+    const val REQUEST_LIVE_STREAM = "REQUEST_LIVE_STREAM"
 }

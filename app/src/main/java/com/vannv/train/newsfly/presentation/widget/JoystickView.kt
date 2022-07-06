@@ -42,7 +42,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val mPaintCircleBorder: Paint
     private val mPaintBackground: Paint
     private var mPaintBitmapButton: Paint? = null
-    private var mButtonBitmap: Bitmap? = null
 
 
     private var mButtonSizeRatio = 0f
@@ -116,14 +115,7 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         // Draw the button from image
 
-        mButtonBitmap?.let {
-            canvas.drawBitmap(
-                mButtonBitmap!!, (
-                        mPosX + mFixedCenterX - mCenterX - mButtonRadius).toFloat(), (
-                        mPosY + mFixedCenterY - mCenterY - mButtonRadius).toFloat(),
-                mPaintBitmapButton
-            )
-        } ?: canvas.drawCircle(
+        canvas.drawCircle(
             (
                     mPosX + mFixedCenterX - mCenterX).toFloat(), (
                     mPosY + mFixedCenterY - mCenterY).toFloat(),
@@ -141,7 +133,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mButtonRadius = (d / 2 * mButtonSizeRatio).toInt()
         mBorderRadius = (d / 2 * mBackgroundSizeRatio).toInt()
         mBackgroundRadius = mBorderRadius - mPaintCircleBorder.strokeWidth / 2
-        if (mButtonBitmap != null) mButtonBitmap = Bitmap.createScaledBitmap(mButtonBitmap!!, mButtonRadius * 2, mButtonRadius * 2, true)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -220,7 +211,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         // (abs > mBorderRadius) means button is too far therefore we limit to border
         // (buttonStickBorder && abs != 0) means wherever is the button we stick it to the border except when abs == 0
-        LogCat.d("Bbs: $abs ----- BorderRadius: $mBorderRadius")
 
         if (abs > mBorderRadius || isButtonStickToBorder && abs != 0.0) {
             mPosX = ((mPosX - mCenterX) * mBorderRadius / abs + mCenterX).toInt()
@@ -231,8 +221,8 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             mCallback?.onMove(angle, strength)
         }
         if (abs > 2.5 * mBorderRadius) {
-            mPosX = mCenterX
-            mPosY = mCenterY
+            resetButtonPosition()
+            mCallback?.onMove(angle, strength)
             isDrag = true
         }
 
@@ -266,31 +256,15 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     * (mPosY - mCenterY)).toDouble()
         ) / mBorderRadius).toInt()
 
-    /**
-     * Reset the button position to the center.
-     */
     private fun resetButtonPosition() {
         mPosX = mCenterX
         mPosY = mCenterY
     }
 
-    /**
-     * Return the state of the joystick. False when the button don't move.
-     * @return the state of the joystick
-     */
     override fun isEnabled(): Boolean {
         return mEnabled
     }
-    /**
-     * Return the size of the button (as a ratio of the total width/height)
-     * Default is 0.25 (25%).
-     * @return button size (value between 0.0 and 1.0)
-     */
-    /**
-     * Set the joystick button size (as a fraction of the real width/height)
-     * By default it is 25% (0.25).
-     * @param newRatio between 0.0 and 1.0
-     */
+
     var buttonSizeRatio: Float
         get() = mButtonSizeRatio
         set(newRatio) {
@@ -327,20 +301,20 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
      * @param d drawable to pick the image
      */
     fun setButtonDrawable(d: Drawable?) {
-        if (d != null) {
-            if (d is BitmapDrawable) {
-                mButtonBitmap = d.bitmap
-                if (mButtonRadius != 0) {
-                    mButtonBitmap = Bitmap.createScaledBitmap(
-                        mButtonBitmap as Bitmap,
-                        mButtonRadius * 2,
-                        mButtonRadius * 2,
-                        true
-                    )
-                }
-                if (mPaintBitmapButton != null) mPaintBitmapButton = Paint()
-            }
-        }
+//        if (d != null) {
+//            if (d is BitmapDrawable) {
+//                mButtonBitmap = d.bitmap
+//                if (mButtonRadius != 0) {
+//                    mButtonBitmap = Bitmap.createScaledBitmap(
+//                        mButtonBitmap as Bitmap,
+//                        mButtonRadius * 2,
+//                        mButtonRadius * 2,
+//                        true
+//                    )
+//                }
+//                if (mPaintBitmapButton != null) mPaintBitmapButton = Paint()
+//            }
+//        }
     }
 
     /**
@@ -533,7 +507,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val borderColor: Int
         val backgroundColor: Int
         val borderWidth: Int
-        val buttonDrawable: Drawable?
         try {
             buttonColor = styledAttributes.getColor(R.styleable.JoystickView_JV_buttonColor, DEFAULT_COLOR_BUTTON)
             borderColor = styledAttributes.getColor(R.styleable.JoystickView_JV_borderColor, DEFAULT_COLOR_BORDER)
@@ -543,7 +516,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
             mFixedCenter = styledAttributes.getBoolean(R.styleable.JoystickView_JV_fixedCenter, DEFAULT_FIXED_CENTER)
             isAutoReCenterButton = styledAttributes.getBoolean(R.styleable.JoystickView_JV_autoReCenterButton, DEFAULT_AUTO_RECENTER_BUTTON)
             isButtonStickToBorder = styledAttributes.getBoolean(R.styleable.JoystickView_JV_buttonStickToBorder, DEFAULT_BUTTON_STICK_TO_BORDER)
-            buttonDrawable = styledAttributes.getDrawable(R.styleable.JoystickView_JV_buttonImage)
             mEnabled = styledAttributes.getBoolean(R.styleable.JoystickView_JV_enabled, true)
             mButtonSizeRatio = styledAttributes.getFraction(R.styleable.JoystickView_JV_buttonSizeRatio, 1, 1, 0.25f)
             mBackgroundSizeRatio = styledAttributes.getFraction(R.styleable.JoystickView_JV_backgroundSizeRatio, 1, 1, 0.75f)
@@ -557,12 +529,6 @@ class JoystickView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mPaintCircleButton.isAntiAlias = true
         mPaintCircleButton.color = buttonColor
         mPaintCircleButton.style = Paint.Style.FILL
-        if (buttonDrawable != null) {
-            if (buttonDrawable is BitmapDrawable) {
-                mButtonBitmap = buttonDrawable.bitmap
-                mPaintBitmapButton = Paint()
-            }
-        }
         mPaintCircleBorder = Paint()
         mPaintCircleBorder.isAntiAlias = true
         mPaintCircleBorder.color = borderColor

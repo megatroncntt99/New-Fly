@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
@@ -83,5 +84,17 @@ fun <T> handleStateFlow(
         RequestState.ERROR -> onError?.invoke()
         RequestState.NON -> onNon?.invoke()
     }
+}
+
+fun Fragment.transferDataFragmentResultEnt(dataFragmentResult: DataFragmentResult) {
+    val result = Bundle()
+    result.putParcelable(
+        Constant.BUNDLE_ANY,
+        dataFragmentResult
+    )
+    parentFragmentManager.setFragmentResult(
+        Constant.REQUEST_LIVE_STREAM,
+        result
+    )
 }
 

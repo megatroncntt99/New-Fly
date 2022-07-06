@@ -79,12 +79,12 @@ class ViewPanTilt : RelativeLayout {
 
 
     private fun draggableSetup() {
-        joyStickView.setActiveMove(R.color.moveCameraActive)
         joyStickView.setOnMoveListener(object : JoystickView.OnMoveListener {
             override fun onMove(angle: Int, strength: Int) {
-                LogCat.d("Strength: $strength")
+                joyStickView.setActiveMove(R.color.moveCameraActive)
                 if (angle == 0 && strength == 0) {
                     setDisableAllView()
+                    joyStickView.setActiveMove(R.color.chipSelect)
                     return
                 }
                 if ((angle in 0..45 || angle in 315..360) && strength > 10) {

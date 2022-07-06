@@ -7,6 +7,9 @@ import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.search.SearchFragmentArgs
 import com.vannv.train.newsfly.presentation.search.SearchViewModel
+import com.vannv.train.newsfly.presentation.widget.MoveCameraListener
+import com.vannv.train.newsfly.utils.DataFragmentResult
+import com.vannv.train.newsfly.utils.transferDataFragmentResultEnt
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -21,7 +24,28 @@ class PanTiltFragment : BaseFragment<FragmentPanTiltBinding, SearchFragmentArgs,
     override val args: SearchFragmentArgs by navArgs()
 
     override fun setupUI() {
+        getVB().panTiltCamera.setListener(object : MoveCameraListener {
+            override fun noneMoveCamera() {
+                transferDataFragmentResultEnt(DataFragmentResult.OnNotPanTiltCamera)
+            }
 
+            override fun moveCameraLeft() {
+                transferDataFragmentResultEnt(DataFragmentResult.OnPanTiltCamera)
+            }
+
+            override fun moveCameraRight() {
+                transferDataFragmentResultEnt(DataFragmentResult.OnPanTiltCamera)
+            }
+
+            override fun moveCameraUp() {
+                transferDataFragmentResultEnt(DataFragmentResult.OnPanTiltCamera)
+            }
+
+            override fun moveCameraDown() {
+                transferDataFragmentResultEnt(DataFragmentResult.OnPanTiltCamera)
+            }
+
+        })
     }
 
     override fun setupVM() {

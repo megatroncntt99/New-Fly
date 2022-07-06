@@ -16,7 +16,7 @@
     <color name="et_search_color">#BFBFBF</color>
     <color name="red">#E63946</color>
     <color name="shimmer_placeholder">#dddddd</color>
-    <color name="borderCircleInActive">#9E3A3838</color>
+    <color name="borderCircleInActive">#CB817E7E</color>
     <color name="borderCircleActive">#9FC4C8D5</color>
     <color name="moveCameraInActive">#9E3A3838</color>
     <color name="moveCameraActive">#edf0f3</color>
