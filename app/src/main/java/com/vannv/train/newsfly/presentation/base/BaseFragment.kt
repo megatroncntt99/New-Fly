@@ -15,13 +15,11 @@ import com.vannv.train.newsfly.utils.LogCat
  * Date: 18/05/2022
  */
 
-abstract class BaseFragment<VB : ViewBinding, Args : NavArgs?, VM : BaseViewModel<*>> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     @Volatile
     protected var binding: VB? = null
-    protected abstract val viewModel: VM
     protected abstract fun getViewBinding(): VB
-    protected abstract val args: Args
     protected abstract fun setupUI()
     protected abstract fun setupVM()
     protected fun getVB(): VB = binding ?: synchronized(this) {

@@ -8,6 +8,8 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -83,5 +85,14 @@ fun <T> handleStateFlow(
         RequestState.ERROR -> onError?.invoke()
         RequestState.NON -> onNon?.invoke()
     }
+}
+
+fun Window.setFullScreen(isNotFullScreen: Boolean = false) {
+    WindowCompat.setDecorFitsSystemWindows(this, isNotFullScreen)
+}
+
+fun Window.lightStatusBar(isLight: Boolean = true) {
+    val wic = WindowInsetsControllerCompat(this, this.decorView)
+    wic.isAppearanceLightStatusBars = isLight
 }
 

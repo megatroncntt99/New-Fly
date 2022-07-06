@@ -11,5 +11,12 @@
         <argument
             android:name="name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment2_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.vannv.train.newsfly.presentation.main.MainFragment"
+        android:label="MainFragment" />
 </navigation>

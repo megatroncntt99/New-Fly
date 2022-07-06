@@ -5,9 +5,11 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.widget.LoadMoreRecyclerView
@@ -22,18 +24,18 @@ import dagger.hilt.android.AndroidEntryPoint
  * Date: 20/05/2022
  */
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, SearchViewModel>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val newsAdapter by lazy {
         NewsAdapter {
             println(it.title)
         }
     }
-    override val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun getViewBinding() = FragmentSearchBinding.inflate(layoutInflater)
 
-    override val args: SearchFragmentArgs by navArgs()
+    private val args: SearchFragmentArgs by navArgs()
 
 
     override fun setupUI() {
@@ -51,6 +53,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
                     }
                 }
             })
+        }
+        getVB().edtSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_searchFragment2_to_mainFragment)
         }
     }
 
