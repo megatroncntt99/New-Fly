@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
+import com.vannv.train.newsfly.presentation.main.lightStatusBar
 import com.vannv.train.newsfly.presentation.widget.MoveCameraListener
 import com.vannv.train.newsfly.presentation.widget.LoadMoreRecyclerView
 import com.vannv.train.newsfly.presentation.widget.RepeatListener
@@ -84,6 +85,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchFragmentArgs, S
         getVB().ivMic.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment2_to_liveStreamFragment)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lightStatusBar(requireActivity().window,false)
     }
 
     override fun onDestroyView() {

@@ -1,17 +1,18 @@
 package com.vannv.train.newsfly.presentation.livestream
 
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.widget.ViewPager2
 import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentLiveStreamBinding
-import com.vannv.train.newsfly.databinding.FragmentSearchBinding
 import com.vannv.train.newsfly.presentation.base.BaseFragment
 import com.vannv.train.newsfly.presentation.livestream.adapter.FragmentLiveStreamAdapter
-import com.vannv.train.newsfly.presentation.search.SearchFragmentArgs
+import com.vannv.train.newsfly.presentation.main.lightStatusBar
+import com.vannv.train.newsfly.presentation.main.setFullScreen
 import com.vannv.train.newsfly.presentation.search.SearchViewModel
 import com.vannv.train.newsfly.utils.*
 
@@ -30,25 +31,39 @@ class LiveStreamFragment : BaseFragment<FragmentLiveStreamBinding, LiveStreamFra
     override val args: LiveStreamFragmentArgs by navArgs()
 
     override fun setupUI() {
+
         getVB().viewPagerLiveStream.adapter = fragmentAdapter
         getVB().viewPagerLiveStream.isUserInputEnabled = false
         getVB().btnMoment.setOnClickListener {
             getVB().viewPagerLiveStream.setCurrentItem(0, false)
             selectChipMoment()
+            scrollViewCenter(it)
         }
         getVB().btnLive.setOnClickListener {
             getVB().viewPagerLiveStream.setCurrentItem(1, false)
             selectChipLive()
+            scrollViewCenter(it)
         }
         getVB().btnRecording.setOnClickListener {
             getVB().viewPagerLiveStream.setCurrentItem(2, false)
             selectChipRecording()
+            scrollViewCenter(it)
         }
         childFragmentManager.setFragmentResultListener(
             Constant.REQUEST_LIVE_STREAM,
             this,
             fragmentResultListener
         )
+        Handler(Looper.getMainLooper()).postDelayed({
+            scrollViewCenter(getVB().btnMoment)
+        }, 120L)
+        setFullScreen(requireActivity().window,true)
+        lightStatusBar(requireActivity().window,false)
+    }
+
+    private fun scrollViewCenter(view: View) {
+        val scrollX: Int = view.left - getVB().root.width / 2 + view.width / 2
+        getVB().tabLayout.smoothScrollTo(scrollX, 0)
     }
 
     private val fragmentResultListener = FragmentResultListener { _, result ->
