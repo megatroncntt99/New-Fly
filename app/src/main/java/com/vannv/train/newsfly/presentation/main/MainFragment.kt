@@ -1,6 +1,8 @@
 package com.vannv.train.newsfly.presentation.main
 
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentMainBinding
@@ -16,7 +18,7 @@ import java.lang.NullPointerException
  */
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {
-    private var currentTabId: Int = 0
+    private var currentTabId: Int = R.id.action_home
 
     override fun getViewBinding() = FragmentMainBinding.inflate(layoutInflater)
 
@@ -35,6 +37,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
             return@setOnItemSelectedListener true
         }
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (currentTabId != R.id.action_home) {
+                    getVB().bottomNavigation.selectedItemId = R.id.action_home
+                } else {
+                    findNavController().navigate(R.id.action_mainFragment_to_searchFragment2)
+                }
+            }
+        })
     }
 
     override fun setupVM() {

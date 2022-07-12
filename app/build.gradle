@@ -12,6 +12,8 @@ plugins {
 
     //parcelize for passing data class (object)
     id 'kotlin-parcelize'
+
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -46,7 +48,8 @@ android {
         jvmTarget = '1.8'
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'API_TOKEN', MyApiToken  //--< Delete this whole block, not needed when you have your own API_KEY
+        it.buildConfigField 'String', 'API_TOKEN', MyApiToken
+        //--< Delete this whole block, not needed when you have your own API_KEY
     }
 
 }
@@ -117,4 +120,8 @@ dependencies {
     testImplementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
 
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging-directboot:20.2.0'
 }
