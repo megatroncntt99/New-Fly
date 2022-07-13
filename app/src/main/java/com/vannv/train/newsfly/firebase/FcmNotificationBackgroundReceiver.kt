@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -33,7 +34,7 @@ class FcmNotificationBackgroundReceiver : BroadcastReceiver() {
             return
         }
 
-        // App is killed
+        // App is killed or background
         try {
             val data: Bundle = intent.extras ?: return
 
@@ -51,6 +52,7 @@ class FcmNotificationBackgroundReceiver : BroadcastReceiver() {
                             .setBigContentTitle("${data[keyTitle]}")
                             .setSummaryText("${data[keyBody]}")
                             .bigPicture(resource)
+                            .bigLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.news_fly_logo))
 
                         val builder = NotificationCompat.Builder(context, "My Notification").apply {
                             setContentTitle("${data[keyTitle]}")
@@ -59,7 +61,7 @@ class FcmNotificationBackgroundReceiver : BroadcastReceiver() {
                             priority = NotificationCompat.PRIORITY_HIGH
                             setSmallIcon(R.drawable.news_fly_logo)
                             setAutoCancel(true)
-                            setLargeIcon(resource)
+
                         }
                         with(NotificationManagerCompat.from(context)) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -84,6 +86,7 @@ class FcmNotificationBackgroundReceiver : BroadcastReceiver() {
                             priority = NotificationCompat.PRIORITY_HIGH
                             setSmallIcon(R.drawable.news_fly_logo)
                             setAutoCancel(true)
+                            setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.news_fly_logo))
                         }
                         with(NotificationManagerCompat.from(context)) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

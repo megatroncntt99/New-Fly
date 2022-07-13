@@ -21,9 +21,6 @@ class FcmNotificationService : FirebaseMessagingService() {
 
         val builder = NotificationCompat.Builder(this, "My Notification").apply {
             setContentTitle("My Title")
-            setStyle(
-                NotificationCompat.BigTextStyle().bigText(notification?.title)
-            )
             setContentText("Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.Bạn vừa nhận được một mã dịch vụ.")
             priority = NotificationCompat.PRIORITY_HIGH
             setSmallIcon(R.drawable.news_fly_logo);
