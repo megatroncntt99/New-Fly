@@ -13,7 +13,7 @@ data class UiState<T>(
 )
 
 enum class RequestState(val state: Int) {
-    NON(-1), SUCCESS(1), ERROR(0);
+    NON(-1),LOADING(2), SUCCESS(1), ERROR(0);
 
     companion object {
         fun find(state: Int): RequestState {
