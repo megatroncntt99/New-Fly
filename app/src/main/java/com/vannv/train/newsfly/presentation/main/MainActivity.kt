@@ -1,11 +1,18 @@
 package com.vannv.train.newsfly.presentation.main
 
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.data.remote.base.TypeError
+import com.vannv.train.newsfly.utils.LogCat
 import com.vannv.train.newsfly.utils.launchWhenCreated
 import com.vannv.train.newsfly.utils.setOverlayStatusBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +29,13 @@ class MainActivity : AppCompatActivity() {
         checkSelectedTheme()
         setContentView(R.layout.activity_main)
         EventBus.getDefault().register(this)
+        intent.extras?.let {
+            Toast.makeText(this, it.getString("Title").orEmpty(), Toast.LENGTH_SHORT).show()
+            findNavController(R.id.nav_host_fragment).navigate(R.id.mainFragment)
+        }
+
     }
+
 
     private fun checkSelectedTheme() {
         launchWhenCreated {
