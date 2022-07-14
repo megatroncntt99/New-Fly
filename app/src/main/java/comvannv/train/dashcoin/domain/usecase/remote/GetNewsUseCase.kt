@@ -15,7 +15,7 @@ import java.lang.Exception
  * Date: 13/07/2022
  */
 class GetNewsUseCase(private val api: DashCoinApi) {
-    suspend operator fun invoke(filterNews: FilterNews) = flow<Resource<List<NewsDetail>>> {
+     operator fun invoke(filterNews: FilterNews) = flow<Resource<List<NewsDetail>>> {
         try {
             emit(Resource.Loading())
             val response = api.getNews(filterNews.value)

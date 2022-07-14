@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
  * Date: 13/07/2022
  */
 class GetCoinUseCase(private val api: DashCoinApi) {
-    suspend operator fun invoke(coinId: String) = flow<Resource<CoinById>> {
+     operator fun invoke(coinId: String) = flow<Resource<CoinById>> {
         try {
             emit(Resource.Loading())
             val response = api.getCoinById(coinId)

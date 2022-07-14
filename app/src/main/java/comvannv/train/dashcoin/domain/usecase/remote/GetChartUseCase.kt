@@ -14,7 +14,7 @@ import java.lang.Exception
  * Date: 13/07/2022
  */
 class GetChartUseCase(private val api: DashCoinApi) {
-    suspend operator fun invoke(coinId: String, chartTimeSpan: ChartTimeSpan) = flow<Resource<Charts>> {
+     operator fun invoke(coinId: String, chartTimeSpan: ChartTimeSpan) = flow<Resource<Charts>> {
         try {
             emit(Resource.Loading())
             val response = api.getCharsData(coinId, chartTimeSpan.value)

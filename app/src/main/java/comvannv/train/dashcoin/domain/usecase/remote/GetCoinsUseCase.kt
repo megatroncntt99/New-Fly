@@ -5,6 +5,7 @@ import comvannv.train.dashcoin.data.dto.toCoinDetail
 import comvannv.train.dashcoin.data.dto.toCoins
 import comvannv.train.dashcoin.data.remote.DashCoinApi
 import comvannv.train.dashcoin.domain.model.Coins
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -12,12 +13,13 @@ import kotlinx.coroutines.flow.flow
  * Date: 13/07/2022
  */
 class GetCoinsUseCase(private val api: DashCoinApi) {
-    suspend operator fun invoke() = flow<Resource<Coins>> {
+     operator fun invoke() = flow<Resource<List<Coins>>> {
         try {
             emit(Resource.Loading())
+            delay(1000L)
             val response = api.getCoins()
             if (response.isSuccessful) {
-                emit(Resource.Success(data = response.body()!!.toCoins()))
+                emit(Resource.Success(data = response.body()!!.coins.map { it.toCoins() }))
             } else {
                 emit(Resource.Error(response.message()))
             }

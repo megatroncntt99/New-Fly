@@ -1,6 +1,7 @@
 package comvannv.train.dashcoin.data.dto
 
 import comvannv.train.dashcoin.domain.model.CoinById
+import comvannv.train.dashcoin.domain.model.Coins
 
 data class Coin(
     val availableSupply: Double,
@@ -23,23 +24,15 @@ data class Coin(
     val websiteUrl: String
 )
 
-fun Coin.toCoinDetail(): CoinById {
-    return CoinById(
-        availableSupply = availableSupply,
-        icon = icon,
-        id = id,
-        marketCap = marketCap,
-        name = name,
-        price = price,
-        priceChange1d = priceChange1d,
-        priceChange1h = priceChange1h,
-        priceChange1w = priceChange1w,
-        rank = rank,
-        symbol = symbol,
-        totalSupply = totalSupply,
-        twitterUrl = twitterUrl,
-        volume = volume,
-        websiteUrl = websiteUrl,
-        priceBtc = priceBtc
+fun Coin.toCoins(): Coins {
+    return Coins(
+        id,
+        icon,
+        marketCap,
+        name,
+        price,
+        priceChange1d,
+        rank,
+        symbol
     )
 }

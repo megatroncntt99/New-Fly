@@ -2,6 +2,7 @@ package comvannv.train.dashcoin.presentation.screens.coins
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import comvannv.train.dashcoin.core.utils.LogCat
 import comvannv.train.dashcoin.data.dto.Resource
 import comvannv.train.dashcoin.domain.model.Coins
 import comvannv.train.dashcoin.domain.usecase.DashCoinUseCase
@@ -11,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +23,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CoinsViewModel @Inject constructor(private val dashCoinUseCase: DashCoinUseCase) : ViewModel() {
-    private val _state = MutableStateFlow(UiState<Coins>())
-    val state: StateFlow<UiState<Coins>> = _state
+    private val _state = MutableStateFlow(UiState<List<Coins>>())
+    val state: StateFlow<UiState<List<Coins>>> = _state
 
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh: StateFlow<Boolean> = _isRefresh
@@ -32,29 +34,27 @@ class CoinsViewModel @Inject constructor(private val dashCoinUseCase: DashCoinUs
     }
 
     private fun getCoins() {
-        viewModelScope.launch(Dispatchers.IO) {
-            dashCoinUseCase.getCoins.invoke().onEach { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        _state.emit(UiState(RequestState.SUCCESS, result = result.data))
-                    }
-                    is Resource.Error -> {
-                        _state.emit(
-                            UiState(
-                                RequestState.ERROR,
-                                message = result.message ?: "Unexpected Error"
-                            )
-                        )
-
-                    }
-                    is Resource.Loading -> _state.emit(
+        dashCoinUseCase.getCoins().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.emit(UiState(state = RequestState.SUCCESS, result = result.data ?: emptyList()))
+                }
+                is Resource.Error -> {
+                    _state.emit(
                         UiState(
-                            RequestState.LOADING,
+                            state = RequestState.ERROR,
+                            message = result.message ?: "Unexpected Error",
                         )
+                    )
+
+                }
+                is Resource.Loading -> {
+                    _state.emit(
+                        UiState(state = RequestState.NON)
                     )
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun refresh() {

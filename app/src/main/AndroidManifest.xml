@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="comvannv.train.dashcoin">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:allowBackup="true"
         android:name=".DashCoinApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
