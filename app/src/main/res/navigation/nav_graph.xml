@@ -18,12 +18,5 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.vannv.train.newsfly.presentation.main.MainFragment"
-        android:label="MainFragment">
-        <action
-            android:id="@+id/action_mainFragment_to_searchFragment2"
-            app:destination="@id/searchFragment2"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="MainFragment"/>
 </navigation>

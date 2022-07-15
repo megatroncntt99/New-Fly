@@ -42,7 +42,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 if (currentTabId != R.id.action_home) {
                     getVB().bottomNavigation.selectedItemId = R.id.action_home
                 } else {
-                    findNavController().navigate(R.id.action_mainFragment_to_searchFragment2)
+                    findNavController().navigateUp()
                 }
             }
         })
