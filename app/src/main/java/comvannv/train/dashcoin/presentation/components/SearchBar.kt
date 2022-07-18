@@ -1,4 +1,4 @@
-package comvannv.train.dashcoin.presentation.screens.coins.components
+package comvannv.train.dashcoin.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

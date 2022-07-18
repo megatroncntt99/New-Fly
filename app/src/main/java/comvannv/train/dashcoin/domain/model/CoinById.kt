@@ -2,6 +2,7 @@ package comvannv.train.dashcoin.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import comvannv.train.dashcoin.data.dto.Coin
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -28,3 +29,15 @@ data class CoinById(
     val websiteUrl: String,
     val priceBtc: Double,
 )
+fun CoinById.toCoins(): Coins {
+    return Coins(
+        id,
+        icon,
+        marketCap,
+        name,
+        price,
+        priceChange1d,
+        rank,
+        symbol
+    )
+}

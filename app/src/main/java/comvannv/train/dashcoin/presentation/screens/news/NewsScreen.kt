@@ -1,4 +1,4 @@
-package comvannv.train.dashcoin.presentation.screens.coins
+package comvannv.train.dashcoin.presentation.screens.news
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -17,9 +18,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import comvannv.train.dashcoin.navigation.routes.Screens
 import comvannv.train.dashcoin.presentation.RequestState
-import comvannv.train.dashcoin.presentation.components.CoinsItem
+import comvannv.train.dashcoin.presentation.components.NewsItem
 import comvannv.train.dashcoin.presentation.components.SearchBar
 import comvannv.train.dashcoin.presentation.components.TopBar
 import comvannv.train.dashcoin.presentation.ui.theme.CustomRed
@@ -27,56 +27,49 @@ import comvannv.train.dashcoin.presentation.ui.theme.DarkGray
 
 /**
  * Author: vannv8@fpt.com.vn
- * Date: 13/07/2022
+ * Date: 15/07/2022
  */
-
 @Composable
-fun CoinsScreen(
-    viewModel: CoinsViewModel = hiltViewModel(),
-    navController: NavController
-) {
-    val state = viewModel.state.collectAsState()
-    val isRefreshing by viewModel.isRefresh.collectAsState()
+fun NewsScreen(newsViewModel: NewsViewModel = hiltViewModel()) {
+    val newsState = newsViewModel.stateNews.value
+    val searchNews = remember { mutableStateOf(TextFieldValue("")) }
+    val uriHandler = LocalUriHandler.current
     val searchCoin = remember { mutableStateOf(TextFieldValue("")) }
-
+    val isRefreshing by newsViewModel.isRefresh.collectAsState()
     Box(
         modifier = Modifier
-            .background(DarkGray)
             .fillMaxSize()
-            .padding(top = 10.dp, bottom = 50.dp)
+            .background(DarkGray)
+            .padding(all = 12.dp)
     ) {
         Column {
-            TopBar(title = "Live Price")
-            SearchBar(
-                hint = "Search...",
-                state = searchCoin,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            val isBeingSearched = searchCoin.value.text
-            SwipeRefresh(
-                state = rememberSwipeRefreshState(isRefreshing = isRefreshing), onRefresh = { viewModel.refresh() }) {
-                LazyColumn {
-                    items(items = state.value.result?.filter {
-                        it.name.contains(isBeingSearched, ignoreCase = true) ||
-                                it.id.contains(isBeingSearched, ignoreCase = true) ||
-                                it.symbol.contains(isBeingSearched, ignoreCase = true)
-                    } ?: emptyList(), key = { it.id }) { coins->
-                        CoinsItem(coins = coins, onItemClick = {
-                            navController.navigate(Screens.CoinDetailScreen.route + "/${coins.id}")
-                        })
+            TopBar(title = "Trending News")
+            SearchBar(hint = "Search...", state = searchNews, modifier = Modifier.fillMaxWidth())
+            Row(modifier = Modifier.padding(12.dp)) {
+                val isBeingSearched = searchCoin.value.text
+                SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing = isRefreshing), onRefresh = { newsViewModel.refresh() }) {
+                    LazyColumn {
+                        items(newsState.result?.filter {
+                            it.title.contains(isBeingSearched, ignoreCase = true) || it.description.contains(
+                                isBeingSearched,
+                                ignoreCase = true
+                            )
+                        } ?: emptyList(), key = { it.title }) { news ->
+                            NewsItem(newsDetail = news) {
+                                uriHandler.openUri(news.link)
+                            }
+                            Spacer(modifier = Modifier.height(15.dp))
+                        }
                     }
                 }
             }
         }
-        if (state.value.state == RequestState.NON) {
+        if (newsState.state == RequestState.NON) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center), color = CustomRed)
         }
-        if (state.value.state == RequestState.ERROR) {
-            state.value.message ?: return
+        if (newsState.state == RequestState.ERROR) {
             Text(
-                text = state.value.message.orEmpty(),
+                text = newsState.message.orEmpty(),
                 color = MaterialTheme.colors.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -85,5 +78,6 @@ fun CoinsScreen(
                     .align(Alignment.Center)
             )
         }
+
     }
 }

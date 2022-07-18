@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import comvannv.train.dashcoin.navigation.routes.Screens
 import comvannv.train.dashcoin.presentation.screens.coins.CoinsScreen
+import comvannv.train.dashcoin.presentation.screens.news.NewsScreen
+import comvannv.train.dashcoin.presentation.screens.watchlist.WatchListScreen
 
 /**
  * Author: vannv8@fpt.com.vn
@@ -20,12 +22,12 @@ fun BottomNavGraph(navController: NavHostController) {
             CoinsScreen(navController = navController)
         }
         composable(route = Screens.CoinWatchList.route) {
-            Text(text = Screens.CoinWatchList.title)
+            WatchListScreen(navController = navController)
         }
         composable(route = Screens.CoinsNew.route) {
-            Text(text = Screens.CoinsNew.title)
+            NewsScreen()
         }
-        composable(route = Screens.CoinDetailScreen.route) {
+        composable(route = Screens.CoinDetailScreen.route + "/{coinId}") {
             Text(text = Screens.CoinDetailScreen.title)
         }
     }
