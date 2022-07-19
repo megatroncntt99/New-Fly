@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="persondb.PersonEntity" />
+
+        <variable
+            name="onItemClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onClickDeleteItem"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{onItemClick}"
+        android:padding="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_name_person"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#000"
+            android:text="@{model.firstName +` `+ model.lastName}"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_delete_person"
+            app:layout_constraintEnd_toStartOf="@id/iv_delete_person"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_delete_person"
+            tool:text="Name Person" />
+
+        <ImageView
+            android:id="@+id/iv_delete_person"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:onClick="@{onClickDeleteItem}"
+            android:src="@drawable/ic_baseline_delete_outline_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

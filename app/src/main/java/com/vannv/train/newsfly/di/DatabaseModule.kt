@@ -2,8 +2,12 @@ package com.vannv.train.newsfly.di
 
 import android.content.Context
 import androidx.room.Room
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
+import com.vannv.train.newsfly.PersonDatabase
 import com.vannv.train.newsfly.data.local.room.NewDao
 import com.vannv.train.newsfly.data.local.room.NewDatabase
+import com.vannv.train.newsfly.data.local.sqldelight.PersonDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +33,16 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideNewDao(newDatabase: NewDatabase): NewDao = newDatabase.newDao()
+
+    @Singleton
+    @Provides
+    fun provideSqlDriver(@ApplicationContext context: Context): SqlDriver {
+        return AndroidSqliteDriver(PersonDatabase.Schema, context, "person.db")
+    }
+
+    @Singleton
+    @Provides
+    fun providePersonDataSource(sqlDriver: SqlDriver): PersonDataSource {
+        return PersonDataSource(db = PersonDatabase(sqlDriver))
+    }
 }

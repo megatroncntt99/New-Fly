@@ -7,9 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.vannv.train.newsfly.R
 import com.vannv.train.newsfly.databinding.FragmentMainBinding
 import com.vannv.train.newsfly.presentation.HomeFragment
-import com.vannv.train.newsfly.presentation.PersonFragment
+import com.vannv.train.newsfly.presentation.person.PersonFragment
 import com.vannv.train.newsfly.presentation.base.BaseFragment
-import com.vannv.train.newsfly.presentation.search.SearchFragment
 import java.lang.NullPointerException
 
 /**
